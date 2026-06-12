@@ -1,0 +1,38 @@
+# PromptMystic Project Rules
+
+## Core Philosophy
+- Documentation should live with the code.
+- Follow **PRD-First Development**: Idea → PRD → Architecture → Implementation.
+- Keep things simple, clear, and encouraging — especially for non-technical users.
+- Treat the PRD as a **living document** that evolves with the project.
+
+## Documentation Rules
+- The main PRD lives at: `docs/PromptMystic-PRD.md`
+- Keep supporting documents in the `docs/` folder when useful (architecture, decisions, roadmap, etc.).
+- **Always update documentation** when making significant architectural or structural changes.
+- The working version of the PRD is maintained in `promptmystic-app/docs/PromptMystic-PRD.md`. After making changes, copy the updated version to the knowledge-base repository to keep both in sync.
+
+## Code Style & Architecture
+- Follow the existing patterns from the Supabase + Stripe + Resend template.
+- Prefer modular, focused files over large monolithic ones.
+- Use TypeScript for type safety.
+- Respect Supabase Row Level Security (RLS) patterns.
+- Avoid unnecessary complexity. Favor clarity and maintainability.
+
+## AI Behavior (Cursor / Claude Code)
+- Suggest improvements and explain tradeoffs.
+- Do not invent new APIs or packages unless clearly justified.
+- When in doubt, ask clarifying questions before making assumptions.
+- Focus on long-term maintainability over short-term cleverness.
+
+## Branching & Workflow
+- Use feature branches for new development work.
+- Keep commits focused and descriptive.
+- Follow a simple flow: `feature` → `dev` → `main` when appropriate.
+
+## Project-Specific Notes
+- This project uses the Supabase + Vercel template with Stripe and Resend already configured.
+- Respect the existing folder structure. Only add a `docs/` folder for documentation.
+- The PRD is the single source of truth for product direction and scope.
+
+---
