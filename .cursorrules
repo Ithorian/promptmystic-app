@@ -3,36 +3,60 @@
 ## Core Philosophy
 - Documentation should live with the code.
 - Follow **PRD-First Development**: Idea → PRD → Architecture → Implementation.
-- Keep things simple, clear, and encouraging — especially for non-technical users.
-- Treat the PRD as a **living document** that evolves with the project.
+- Keep the experience simple, clear, and encouraging — especially for non-technical users.
+- Treat the PRD as a **living document** that evolves alongside the project.
 
 ## Documentation Rules
-- The main PRD lives at: `docs/PromptMystic-PRD.md`
-- Keep supporting documents in the `docs/` folder when useful (architecture, decisions, roadmap, etc.).
-- **Always update documentation** when making significant architectural or structural changes.
-- The working version of the PRD is maintained in `promptmystic-app/docs/PromptMystic-PRD.md`. After making changes, copy the updated version to the knowledge-base repository to keep both in sync.
+- The working version of the PRD lives at: `docs/PromptMystic-PRD.md`
+- After making significant changes to the PRD, copy the updated version to the knowledge-base repository (`knowledge-base/Projects/PromptMystic/PromptMystic-PRD.md`) to keep both in sync.
+- Keep supporting documentation in the `docs/` folder (architecture, decisions, roadmap, database schema, etc.).
+- Always update documentation when making architectural or structural changes.
 
-## Code Style & Architecture
-- Follow the existing patterns from the Supabase + Stripe + Resend template.
-- Prefer modular, focused files over large monolithic ones.
-- Use TypeScript for type safety.
-- Respect Supabase Row Level Security (RLS) patterns.
-- Avoid unnecessary complexity. Favor clarity and maintainability.
+## Tech Stack Specific Rules
+
+### Supabase
+- Always respect **Row Level Security (RLS)** policies.
+- Prefer using Supabase client with proper RLS rather than service role keys in client-side code.
+- Keep database types in sync (`supabase gen types typescript`).
+- Use the Supabase client from `@/supabase` or the established pattern in the project.
+- Never expose service role keys in frontend code or commit them.
+
+### Stripe
+- Always work in **Test Mode** during development.
+- Webhook handlers must verify signatures using `STRIPE_WEBHOOK_SECRET`.
+- Keep subscription and payment logic clearly separated from business logic.
+- Use Stripe’s official SDK and follow their recommended patterns for subscriptions.
+- Log webhook events for debugging (but never log sensitive card data).
+
+### Resend
+- Use Resend for all transactional emails.
+- Keep email templates simple and consistent.
+- Store email-related logic in a dedicated folder (e.g., `lib/emails` or `features/emails`).
+- Use environment variables for the Resend API key.
+
+### General Architecture & Code Style
+- Follow the existing folder structure from the Supabase + Vercel template.
+- Prefer modular, single-responsibility components and functions.
+- Use TypeScript strictly. Avoid `any` unless absolutely necessary.
+- Keep components in `components/` and feature-specific logic in `features/`.
+- Use `shadcn/ui` components as the base UI layer.
+- Avoid adding new UI libraries unless strongly justified.
 
 ## AI Behavior (Cursor / Claude Code)
-- Suggest improvements and explain tradeoffs.
-- Do not invent new APIs or packages unless clearly justified.
-- When in doubt, ask clarifying questions before making assumptions.
-- Focus on long-term maintainability over short-term cleverness.
+- Suggest improvements and clearly explain tradeoffs.
+- Do not invent new packages or APIs unless they are clearly better than existing ones.
+- When in doubt, ask clarifying questions before generating code.
+- Prioritize long-term maintainability and readability.
+- Respect the existing patterns already established in the project.
 
-## Branching & Workflow
-- Use feature branches for new development work.
+## Branching & Git Workflow
+- Use feature branches for new work (`feature/your-feature-name`).
 - Keep commits focused and descriptive.
-- Follow a simple flow: `feature` → `dev` → `main` when appropriate.
+- Prefer small, reviewable pull requests.
 
-## Project-Specific Notes
-- This project uses the Supabase + Vercel template with Stripe and Resend already configured.
-- Respect the existing folder structure. Only add a `docs/` folder for documentation.
-- The PRD is the single source of truth for product direction and scope.
+## Security & Secrets
+- Never commit API keys, secrets, or environment variables.
+- Use `.env.local` for local development only.
+- Be especially careful with Supabase service role keys and Stripe secret keys.
 
 ---
