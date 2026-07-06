@@ -3,60 +3,64 @@
 ## Core Philosophy
 - Documentation should live with the code.
 - Follow **PRD-First Development**: Idea → PRD → Architecture → Implementation.
-- Keep the experience simple, clear, and encouraging — especially for non-technical users.
-- Treat the PRD as a **living document** that evolves alongside the project.
+- Keep things simple, clear, and encouraging — especially for non-technical users.
+- Treat the PRD as a **living document** that evolves with the project.
 
 ## Documentation Rules
 - The working version of the PRD lives at: `docs/PromptMystic-PRD.md`
-- After making significant changes to the PRD, copy the updated version to the knowledge-base repository (`knowledge-base/Projects/PromptMystic/PromptMystic-PRD.md`) to keep both in sync.
-- Keep supporting documentation in the `docs/` folder (architecture, decisions, roadmap, database schema, etc.).
+- After making significant changes, copy the updated PRD to the knowledge-base repository to keep both versions in sync.
 - Always update documentation when making architectural or structural changes.
+
+## Commit Message Guidelines
+Use the following format for commits:
+type: short description
+Optional longer explanation if needed.
+text**Common types:**
+- `feat:` — New feature
+- `fix:` — Bug fix
+- `docs:` — Documentation changes
+- `refactor:` — Code refactoring (no new features)
+- `chore:` — Maintenance, config, dependencies
+- `style:` — Formatting, missing semicolons, etc. (no code change)
+
+**Examples:**
+- `feat: add user rating system to PromptMystic skill`
+- `docs: update PROJECT-STRUCTURE.md with new folder layout`
+- `fix: correct Supabase RLS policy on products table`
+
+## Package Manager
+- Use **pnpm** exclusively for this project.
+- Never use npm or yarn.
+- Always run `pnpm install` when adding or updating dependencies.
+- The project uses a `pnpm-lock.yaml` file.
 
 ## Tech Stack Specific Rules
 
 ### Supabase
-- Always respect **Row Level Security (RLS)** policies.
-- Prefer using Supabase client with proper RLS rather than service role keys in client-side code.
-- Keep database types in sync (`supabase gen types typescript`).
-- Use the Supabase client from `@/supabase` or the established pattern in the project.
-- Never expose service role keys in frontend code or commit them.
+- Always respect Row Level Security (RLS).
+- Prefer using the Supabase client with proper RLS over service role keys on the client.
+- Keep database types in sync.
 
 ### Stripe
-- Always work in **Test Mode** during development.
-- Webhook handlers must verify signatures using `STRIPE_WEBHOOK_SECRET`.
-- Keep subscription and payment logic clearly separated from business logic.
-- Use Stripe’s official SDK and follow their recommended patterns for subscriptions.
-- Log webhook events for debugging (but never log sensitive card data).
+- Work in **Test Mode** during development.
+- Webhook handlers must verify signatures.
+- Keep subscription logic clean and separated.
 
 ### Resend
-- Use Resend for all transactional emails.
+- Use for all transactional emails.
 - Keep email templates simple and consistent.
-- Store email-related logic in a dedicated folder (e.g., `lib/emails` or `features/emails`).
-- Use environment variables for the Resend API key.
 
-### General Architecture & Code Style
-- Follow the existing folder structure from the Supabase + Vercel template.
-- Prefer modular, single-responsibility components and functions.
-- Use TypeScript strictly. Avoid `any` unless absolutely necessary.
-- Keep components in `components/` and feature-specific logic in `features/`.
-- Use `shadcn/ui` components as the base UI layer.
-- Avoid adding new UI libraries unless strongly justified.
+## Code Style & Architecture
+- Follow the existing patterns from the Supabase + Vercel template.
+- Prefer modular, focused files.
+- Use TypeScript strictly.
 
-## AI Behavior (Cursor / Claude Code)
-- Suggest improvements and clearly explain tradeoffs.
-- Do not invent new packages or APIs unless they are clearly better than existing ones.
-- When in doubt, ask clarifying questions before generating code.
-- Prioritize long-term maintainability and readability.
-- Respect the existing patterns already established in the project.
+## AI Behavior
+- Suggest improvements and explain tradeoffs.
+- Do not invent new packages unless clearly justified.
+- Ask clarifying questions when requirements are ambiguous.
+- Focus on long-term maintainability.
 
-## Branching & Git Workflow
-- Use feature branches for new work (`feature/your-feature-name`).
+## Branching & Workflow
+- Use feature branches for new development work.
 - Keep commits focused and descriptive.
-- Prefer small, reviewable pull requests.
-
-## Security & Secrets
-- Never commit API keys, secrets, or environment variables.
-- Use `.env.local` for local development only.
-- Be especially careful with Supabase service role keys and Stripe secret keys.
-
----
