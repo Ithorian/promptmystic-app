@@ -6,7 +6,7 @@ import { IoCopyOutline, IoSparkles } from 'react-icons/io5';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
-import { ChatMessage } from '@/features/promptmystic/types';
+import { ChatMessage, MAX_MESSAGE_LENGTH } from '@/features/promptmystic/types';
 import { cn } from '@/utils/cn';
 
 const WELCOME_MESSAGE: ChatMessage = {
@@ -35,6 +35,14 @@ export function PromptChat() {
     event.preventDefault();
     const trimmed = input.trim();
     if (!trimmed || isStreaming) return;
+
+    if (trimmed.length > MAX_MESSAGE_LENGTH) {
+      toast({
+        variant: 'destructive',
+        description: `Please shorten your message to ${MAX_MESSAGE_LENGTH.toLocaleString()} characters or fewer.`,
+      });
+      return;
+    }
 
     const nextMessages: ChatMessage[] = [...messages, { role: 'user', content: trimmed }];
     setMessages(nextMessages);
@@ -144,9 +152,15 @@ export function PromptChat() {
           placeholder='Describe what you want in plain words…'
           aria-label='Describe what you want in plain words'
           disabled={isStreaming}
+          maxLength={MAX_MESSAGE_LENGTH}
           rows={2}
         />
-        <div className='flex justify-end'>
+        <div className='flex items-center justify-end gap-3'>
+          {input.length > MAX_MESSAGE_LENGTH - 1000 && (
+            <span className='text-xs text-neutral-500'>
+              {input.length.toLocaleString()}/{MAX_MESSAGE_LENGTH.toLocaleString()}
+            </span>
+          )}
           <Button type='submit' variant='sexy' disabled={isStreaming || !input.trim()}>
             <IoSparkles className='mr-2' size={16} />
             {isStreaming ? 'Working…' : 'Send'}

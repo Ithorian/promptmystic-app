@@ -20,9 +20,13 @@ export async function PricingSection({ isPricingPage }: { isPricingPage?: boolea
           Find a plan that fits you. Upgrade at any time to enable additional features.
         </p>
         <div className='flex w-full flex-col items-center justify-center gap-2 lg:flex-row lg:gap-8'>
-          {products.map((product) => {
-            return <PricingCard key={product.id} product={product} createCheckoutAction={createCheckoutAction} />;
-          })}
+          {products.length === 0 ? (
+            <p className='text-center text-neutral-400'>No plans are available right now. Please check back soon.</p>
+          ) : (
+            products.map((product) => {
+              return <PricingCard key={product.id} product={product} createCheckoutAction={createCheckoutAction} />;
+            })
+          )}
         </div>
       </div>
       <Image

@@ -14,11 +14,19 @@ export async function getProducts(): Promise<ProductWithPrices[]> {
     .order('unit_amount', { referencedTable: 'prices' });
 
   if (error) {
-    console.error(error.message);
+    console.error('[getProducts] Failed to fetch products:', error.message);
   }
 
   // The Supabase client's nested-relation inference resolves to `never` for the
   // products/prices join under newer supabase-js, so we assert the shape we
   // actually get back at runtime (defined by ProductWithPrices).
-  return (data as unknown as ProductWithPrices[] | null) ?? [];
+  const products = (data as unknown as ProductWithPrices[] | null) ?? [];
+
+  if (products.length === 0) {
+    console.warn(
+      '[getProducts] No active products with active prices returned. Check Stripe product sync and product metadata.'
+    );
+  }
+
+  return products;
 }
