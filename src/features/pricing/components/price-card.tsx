@@ -75,12 +75,13 @@ export function PricingCard({
         {!Boolean(price) && product.prices.length > 1 && <PricingSwitch onChange={handleBillingIntervalChange} />}
 
         <div className='m-auto flex w-fit flex-1 flex-col gap-2 px-8 py-4'>
-          {metadata.generatedImages === 'enterprise' && <CheckItem text={`Unlimited banner images`} />}
-          {metadata.generatedImages !== 'enterprise' && (
-            <CheckItem text={`Generate ${metadata.generatedImages} banner images`} />
+          {metadata.promptsPerMonth === 'unlimited' && <CheckItem text={`Unlimited prompts`} />}
+          {metadata.promptsPerMonth && metadata.promptsPerMonth !== 'unlimited' && (
+            <CheckItem text={`${metadata.promptsPerMonth} prompts / month`} />
           )}
-          {<CheckItem text={`${metadata.imageEditor} image editing features`} />}
-          {<CheckItem text={`${metadata.supportLevel} support`} />}
+          <CheckItem text={`Access to the PromptMystic engine`} />
+          <CheckItem text={`Optimized for Claude & GPT-4o`} />
+          <CheckItem text={`${metadata.supportLevel} support`} />
         </div>
 
         {createCheckoutAction && (
@@ -96,7 +97,7 @@ export function PricingCard({
             )}
             {!currentPrice && (
               <Button variant={buttonVariantMap[metadata.priceCardVariant]} className='w-full' asChild>
-                <Link href='/contact'>Contact Us</Link>
+                <Link href='/support'>Contact Us</Link>
               </Button>
             )}
           </div>

@@ -26,6 +26,17 @@ This document explains the key files and organization of the PromptMystic develo
 - We use the existing Supabase + Stripe + Resend template structure.
 - We keep changes minimal and focused.
 
-Last Updated: June 11, 2026
+## Branching & Workflow
+
+**Current Approach (as of June 2026):**
+- For `promptmystic-app`: Direct pushes to `main` are currently acceptable while working solo on smaller changes.
+- For `knowledge-base`: Feature branches + Pull Requests are used for better control.
+
+**Recommended Future Workflow:**
+- Use feature branches (`feature/your-feature-name`) for new development work.
+- Keep `main` stable.
+- Use clear, conventional commit messages (see `.cursorrules`).
+
+Last Updated: June 12, 2026
 
 ---

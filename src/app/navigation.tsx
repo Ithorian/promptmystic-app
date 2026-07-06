@@ -6,16 +6,24 @@ import { Logo } from '@/components/logo';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
 import { getSession } from '@/features/account/controllers/get-session';
+import { getSubscription } from '@/features/account/controllers/get-subscription';
 
 import { signOut } from './(auth)/auth-actions';
 
 export async function Navigation() {
-  const session = await getSession();
+  const [session, subscription] = await Promise.all([getSession(), getSubscription()]);
 
   return (
     <div className='relative flex items-center gap-6'>
       {session ? (
-        <AccountMenu signOut={signOut} />
+        <>
+          {subscription && (
+            <Button variant='sexy' className='hidden flex-shrink-0 lg:flex' asChild>
+              <Link href='/tool'>Open PromptMystic</Link>
+            </Button>
+          )}
+          <AccountMenu signOut={signOut} />
+        </>
       ) : (
         <>
           <Button variant='sexy' className='hidden flex-shrink-0 lg:flex' asChild>

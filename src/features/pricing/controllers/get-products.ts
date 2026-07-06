@@ -1,6 +1,8 @@
 import { createSupabaseServerClient } from '@/libs/supabase/supabase-server-client';
 
-export async function getProducts() {
+import { ProductWithPrices } from '../types';
+
+export async function getProducts(): Promise<ProductWithPrices[]> {
   const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
@@ -15,5 +17,8 @@ export async function getProducts() {
     console.error(error.message);
   }
 
-  return data ?? [];
+  // The Supabase client's nested-relation inference resolves to `never` for the
+  // products/prices join under newer supabase-js, so we assert the shape we
+  // actually get back at runtime (defined by ProductWithPrices).
+  return (data as unknown as ProductWithPrices[] | null) ?? [];
 }

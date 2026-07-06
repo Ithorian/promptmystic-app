@@ -1,5 +1,5 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import { IoChatbubblesOutline, IoRocketOutline, IoSparklesOutline } from 'react-icons/io5';
 
 import { Container } from '@/components/container';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,7 @@ export default async function HomePage() {
   return (
     <div className='flex flex-col gap-8 lg:gap-32'>
       <HeroSection />
-      <ExamplesSection />
+      <HowItWorksSection />
       <PricingSection />
     </div>
   );
@@ -19,111 +19,56 @@ function HeroSection() {
   return (
     <section className='relative overflow-hidden lg:overflow-visible'>
       <Container className='relative rounded-lg bg-black py-20 lg:py-[140px]'>
-        <div className='relative z-10 flex flex-col gap-5 lg:max-w-xl lg:pl-8'>
-          <div className='w-fit rounded-full bg-gradient-to-r from-[#616571] via-[#7782A9] to-[#826674] px-4 py-1 '>
+        <div className='relative z-10 m-auto flex max-w-2xl flex-col items-center gap-5 text-center'>
+          <div className='w-fit rounded-full bg-gradient-to-r from-[#616571] via-[#7782A9] to-[#826674] px-4 py-1'>
             <span className='font-alt text-sm font-semibold text-black mix-blend-soft-light'>
-              Generate banners with DALL·E
+              AI that works for you, not against you
             </span>
           </div>
-          <h1>Instantly craft stunning Twitter banners.</h1>
+          <h1>Turn simple words into powerful, professional prompts.</h1>
+          <p className='max-w-xl text-lg text-neutral-400'>
+            Tell PromptMystic what you want in plain language. We craft a well-engineered prompt that gets
+            you strong results from Claude and GPT-4o — no prompt engineering skills required.
+          </p>
           <Button asChild variant='sexy'>
-            <Link href='/signup'>Get started for free</Link>
+            <Link href='/signup'>Get started</Link>
           </Button>
         </div>
       </Container>
-      <Image
-        src='/hero-shape.png'
-        width={867}
-        height={790}
-        alt=''
-        className='absolute right-0 top-0 rounded-tr-lg'
-        priority
-        quality={100}
-      />
     </section>
   );
 }
 
-function ExamplesSection() {
+function HowItWorksSection() {
+  const steps = [
+    {
+      icon: IoChatbubblesOutline,
+      title: 'Say it in plain words',
+      description: 'Describe what you want like you would to a helpful friend. No jargon, no pressure.',
+    },
+    {
+      icon: IoSparklesOutline,
+      title: 'We engineer the prompt',
+      description: 'PromptMystic asks a few gentle questions, then builds a polished, professional prompt.',
+    },
+    {
+      icon: IoRocketOutline,
+      title: 'Copy, paste, and shine',
+      description: 'Paste your ready-to-use prompt into Claude or ChatGPT and get results that feel like magic.',
+    },
+  ];
+
   return (
-    <section className='flex flex-col gap-4 overflow-hidden rounded-lg bg-black py-8'>
-      <div className='flex justify-center gap-4'>
-        <Image
-          className='flex-shrink-0'
-          src='/example1.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example2.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example3.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-      </div>
-      <div className='flex gap-4'>
-        <Image
-          className='flex-shrink-0'
-          src='/example4.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example5.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example6.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-      </div>
-      <div className='flex justify-center gap-4'>
-        <Image
-          className='flex-shrink-0'
-          src='/example7.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example8.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
-        <Image
-          className='flex-shrink-0'
-          src='/example9.png'
-          width={600}
-          height={200}
-          alt='Example of a generated banner'
-          quality={100}
-        />
+    <section className='flex flex-col gap-8 rounded-lg bg-black px-4 py-12 lg:py-16'>
+      <h2 className='text-center text-3xl font-bold'>How PromptMystic works</h2>
+      <div className='grid gap-6 lg:grid-cols-3'>
+        {steps.map((step) => (
+          <div key={step.title} className='flex flex-col items-center gap-3 rounded-md bg-zinc-900 p-8 text-center'>
+            <step.icon size={32} className='text-neutral-300' />
+            <h3 className='text-xl font-semibold'>{step.title}</h3>
+            <p className='text-sm text-neutral-400'>{step.description}</p>
+          </div>
+        ))}
       </div>
     </section>
   );

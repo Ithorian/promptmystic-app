@@ -1,18 +1,25 @@
-import z from 'zod';
+import { z } from 'zod';
 
 export const priceCardVariantSchema = z.enum(['basic', 'pro', 'enterprise']);
 
+/**
+ * Metadata stored on each Stripe product and synced to our DB. Configure these
+ * keys on the product in the Stripe dashboard.
+ *
+ * - `price_card_variant`: controls card styling/emphasis (basic | pro | enterprise)
+ * - `prompts_per_month`: a number as a string, or "unlimited"
+ * - `support_level`: "email" | "priority"
+ * - `index` (optional, used only for ordering in the query): "0", "1", "2"
+ */
 export const productMetadataSchema = z
   .object({
-    price_card_variant: priceCardVariantSchema,
-    generated_images: z.string().optional(),
-    image_editor: z.enum(['basic', 'pro']),
-    support_level: z.enum(['email', 'live']),
+    price_card_variant: priceCardVariantSchema.default('basic'),
+    prompts_per_month: z.string().optional(),
+    support_level: z.enum(['email', 'priority']).default('email'),
   })
   .transform((data) => ({
     priceCardVariant: data.price_card_variant,
-    generatedImages: data.generated_images ? parseInt(data.generated_images) : 'enterprise',
-    imageEditor: data.image_editor,
+    promptsPerMonth: data.prompts_per_month === 'unlimited' ? 'unlimited' : data.prompts_per_month,
     supportLevel: data.support_level,
   }));
 
