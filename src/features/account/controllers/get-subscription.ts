@@ -1,5 +1,6 @@
 import { getAuthUser } from '@/features/account/controllers/get-auth-user';
 import { SubscriptionWithProduct } from '@/features/pricing/types';
+import { logUnexpectedError } from '@/libs/logging';
 import { createSupabaseServerClient } from '@/libs/supabase/supabase-server-client';
 
 export async function getSubscription(): Promise<SubscriptionWithProduct | null> {
@@ -18,7 +19,7 @@ export async function getSubscription(): Promise<SubscriptionWithProduct | null>
     .maybeSingle();
 
   if (error) {
-    console.error(error);
+    logUnexpectedError('getSubscription', error);
   }
 
   // Newer supabase-js infers nested relations as `never` here; assert the
