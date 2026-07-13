@@ -9,12 +9,12 @@
       "method": "post",
       "params": {
         "name": "Basic",
-        "description": "Perfect product for small businesses.",
+        "description": "For getting started with better prompts.",
         "metadata": {
           "price_card_variant": "basic",
-          "generated_images": 10,
-          "image_editor": "basic",
-          "support_level": "email"
+          "prompts_per_month": "100",
+          "support_level": "email",
+          "index": "0"
         }
       }
     },
@@ -26,7 +26,7 @@
         "product": "${basic:id}",
         "currency": "usd",
         "billing_scheme": "per_unit",
-        "unit_amount": 500,
+        "unit_amount": 900,
         "recurring": {
           "interval": "month",
           "interval_count": 1
@@ -34,44 +34,29 @@
       }
     },
     {
-      "name": "price_basic_year",
-      "path": "/v1/prices",
-      "method": "post",
-      "params": {
-        "product": "${basic:id}",
-        "currency": "usd",
-        "billing_scheme": "per_unit",
-        "unit_amount": 5000,
-        "recurring": {
-          "interval": "year",
-          "interval_count": 1
-        }
-      }
-    },
-    {
-      "name": "pro",
+      "name": "standard",
       "path": "/v1/products",
       "method": "post",
       "params": {
-        "name": "Pro",
-        "description": "Perfect product for growing or large businesses.",
+        "name": "Standard",
+        "description": "For power users who prompt every day.",
         "metadata": {
           "price_card_variant": "pro",
-          "generated_images": 100,
-          "image_editor": "pro",
-          "support_level": "live"
+          "prompts_per_month": "500",
+          "support_level": "priority",
+          "index": "1"
         }
       }
     },
     {
-      "name": "price_pro_month",
+      "name": "price_standard_month",
       "path": "/v1/prices",
       "method": "post",
       "params": {
-        "product": "${pro:id}",
+        "product": "${standard:id}",
         "currency": "usd",
         "billing_scheme": "per_unit",
-        "unit_amount": 1000,
+        "unit_amount": 1900,
         "recurring": {
           "interval": "month",
           "interval_count": 1
@@ -79,31 +64,32 @@
       }
     },
     {
-      "name": "price_pro_year",
-      "path": "/v1/prices",
+      "name": "premium",
+      "path": "/v1/products",
       "method": "post",
       "params": {
-        "product": "${pro:id}",
-        "currency": "usd",
-        "billing_scheme": "per_unit",
-        "unit_amount": 10000,
-        "recurring": {
-          "interval": "year",
-          "interval_count": 1
+        "name": "Premium",
+        "description": "Unlimited prompting for teams and pros.",
+        "metadata": {
+          "price_card_variant": "enterprise",
+          "prompts_per_month": "unlimited",
+          "support_level": "priority",
+          "index": "2"
         }
       }
     },
     {
-      "name": "enterprise",
-      "path": "/v1/products",
+      "name": "price_premium_month",
+      "path": "/v1/prices",
       "method": "post",
       "params": {
-        "name": "Enterprise",
-        "description": "Perfect product for enterprises.",
-        "metadata": {
-          "price_card_variant": "enterprise",
-          "image_editor": "pro",
-          "support_level": "live"
+        "product": "${premium:id}",
+        "currency": "usd",
+        "billing_scheme": "per_unit",
+        "unit_amount": 2900,
+        "recurring": {
+          "interval": "month",
+          "interval_count": 1
         }
       }
     }

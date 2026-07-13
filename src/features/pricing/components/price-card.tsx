@@ -1,148 +1,121 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import Link from 'next/link';
-import { IoCheckmark } from 'react-icons/io5';
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Check } from "lucide-react";
 
-import { SexyBoarder } from '@/components/sexy-boarder';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+interface PricingCardProps {
+  product: any;
+  billingInterval: 'month' | 'year';
+}
 
-import { PriceCardVariant, productMetadataSchema } from '../models/product-metadata';
-import { BillingInterval, Price, ProductWithPrices } from '../types';
-
-export function PricingCard({
-  product,
-  price,
-  createCheckoutAction,
-}: {
-  product: ProductWithPrices;
-  price?: Price;
-  createCheckoutAction?: ({ price }: { price: Price }) => void;
-}) {
-  const [billingInterval, setBillingInterval] = useState<BillingInterval>(
-    price ? (price.interval as BillingInterval) : 'month'
+export function PricingCard({ product, billingInterval }: PricingCardProps) {
+  const price = product.prices?.find(
+    (p: any) => p.interval === billingInterval
   );
 
-  // Determine the price to render
-  const currentPrice = useMemo(() => {
-    // If price is passed in we use that one. This is used on the account page when showing the user their current subscription.
-    if (price) return price;
+  const isPopular = product.name === "Pro";
+  const hasNumericPrice = Boolean(price?.unit_amount);
+  const isContactPlan = !hasNumericPrice;
 
-    // If no price provided we need to find the right one to render for the product.
-    // First check if the product has a price - in the case of our enterprise product, no price is included.
-    // We'll return null and handle that case when rendering.
-    if (product.prices.length === 0) return null;
+  const displayPrice = hasNumericPrice
+    ? `$${(price!.unit_amount / 100).toFixed(0)}`
+    : "Custom";
 
-    // Next determine if the product is a one time purchase - in these cases it will only have a single price.
-    if (product.prices.length === 1) return product.prices[0];
+  const priceLabel = billingInterval === "year" ? "/year" : "/month";
 
-    // Lastly we can assume the product is a subscription one with a month and year price, so we get the price according to the select billingInterval
-    return product.prices.find((price) => price.interval === billingInterval);
-  }, [billingInterval, price, product.prices]);
+  const planFeatures: Record<string, string[]> = {
+    Starter: [
+      "100 prompts per month",
+      "Access to the PromptMystic engine",
+      "Optimized for Claude & GPT-4o",
+      "Email support",
+      "Basic prompt templates",
+    ],
+    Pro: [
+      "Unlimited prompts",
+      "Access to the PromptMystic engine",
+      "Optimized for Claude & GPT-4o",
+      "Priority email support",
+      "Advanced prompt templates",
+      "Prompt history & organization",
+    ],
+    Premium: [
+      "Unlimited prompts",
+      "Access to the PromptMystic engine",
+      "Optimized for Claude & GPT-4o",
+      "Priority email support",
+      "Advanced prompt engineering tools",
+      "Custom prompt packs",
+      "Early access to new features",
+    ],
+  };
 
-  const monthPrice = product.prices.find((price) => price.interval === 'month')?.unit_amount;
-  const yearPrice = product.prices.find((price) => price.interval === 'year')?.unit_amount;
-  const isBillingIntervalYearly = billingInterval === 'year';
-  const metadata = productMetadataSchema.parse(product.metadata);
-  const buttonVariantMap = {
-    basic: 'default',
-    pro: 'sexy',
-    enterprise: 'orange',
-  } as const;
-
-  function handleBillingIntervalChange(billingInterval: BillingInterval) {
-    setBillingInterval(billingInterval);
-  }
+  const features = planFeatures[product.name] || [];
 
   return (
-    <WithSexyBorder variant={metadata.priceCardVariant} className='w-full flex-1'>
-      <div className='flex w-full flex-col rounded-md border border-zinc-800 bg-black p-4 lg:p-8'>
-        <div className='p-4'>
-          <div className='mb-1 text-center font-alt text-xl font-bold'>{product.name}</div>
-          <div className='flex justify-center gap-0.5 text-zinc-400'>
-            <span className='font-semibold'>
-              {yearPrice && isBillingIntervalYearly
-                ? '$' + yearPrice / 100
-                : monthPrice
-                ? '$' + monthPrice / 100
-                : 'Custom'}
-            </span>
-            <span>{yearPrice && isBillingIntervalYearly ? '/year' : monthPrice ? '/month' : null}</span>
-          </div>
+    <div className="relative flex h-full flex-col rounded-2xl border bg-white p-8 shadow-sm transition-all hover:shadow-md">
+      
+      {isPopular && (
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+          <Badge className="bg-orange-500 px-4 py-1 text-sm font-medium text-white hover:bg-orange-500">
+            Most Popular
+          </Badge>
         </div>
+      )}
 
-        {!Boolean(price) && product.prices.length > 1 && <PricingSwitch onChange={handleBillingIntervalChange} />}
+      <div className="flex flex-col">
+        <div className="mb-2 text-xl font-semibold text-black">{product.name}</div>
 
-        <div className='m-auto flex w-fit flex-1 flex-col gap-2 px-8 py-4'>
-          {metadata.promptsPerMonth === 'unlimited' && <CheckItem text={`Unlimited prompts`} />}
-          {metadata.promptsPerMonth && metadata.promptsPerMonth !== 'unlimited' && (
-            <CheckItem text={`${metadata.promptsPerMonth} prompts / month`} />
+        {/* Price Display */}
+        <div className="mb-6 flex min-h-[4.5rem] flex-col justify-center">
+          {isContactPlan ? (
+            <>
+              <span className="text-3xl font-bold tracking-tight text-black">Let's talk</span>
+              <span className="mt-1 text-sm text-neutral-600">
+                Custom pricing for your team
+              </span>
+            </>
+          ) : (
+            <div className="flex items-baseline">
+              <span className="text-5xl font-bold tracking-tighter text-black">{displayPrice}</span>
+              <span className="ml-1 text-lg text-neutral-500">{priceLabel}</span>
+            </div>
           )}
-          <CheckItem text={`Access to the PromptMystic engine`} />
-          <CheckItem text={`Optimized for Claude & GPT-4o`} />
-          <CheckItem text={`${metadata.supportLevel} support`} />
         </div>
 
-        {createCheckoutAction && (
-          <div className='py-4'>
-            {currentPrice && (
-              <Button
-                variant={buttonVariantMap[metadata.priceCardVariant]}
-                className='w-full'
-                onClick={() => createCheckoutAction({ price: currentPrice })}
-              >
-                Get Started
-              </Button>
-            )}
-            {!currentPrice && (
-              <Button variant={buttonVariantMap[metadata.priceCardVariant]} className='w-full' asChild>
-                <Link href='/support'>Contact Us</Link>
-              </Button>
-            )}
-          </div>
-        )}
+        {/* Features */}
+        <ul className="mb-8 flex-1 space-y-3 text-sm text-neutral-700">
+          {features.map((feature, index) => (
+            <li key={index} className="flex items-start gap-3">
+              <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-500" />
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
       </div>
-    </WithSexyBorder>
-  );
-}
 
-function CheckItem({ text }: { text: string }) {
-  return (
-    <div className='flex items-center gap-2'>
-      <IoCheckmark className='my-auto flex-shrink-0 text-slate-500' />
-      <p className='text-sm font-medium text-white first-letter:capitalize'>{text}</p>
+      <Button
+        className={`w-full text-base font-medium ${
+          isPopular 
+            ? "bg-orange-500 hover:bg-orange-600 text-white" 
+            : isContactPlan
+              ? "bg-neutral-900 hover:bg-black text-white"
+              : "bg-primary hover:bg-primary/90"
+        }`}
+        onClick={async () => {
+          if (isContactPlan) {
+            window.location.href = "mailto:patrick@montereyminerals.com?subject=Premium%20plan%20enquiry";
+            return;
+          }
+          const priceId = (price as any)?.id;
+          if (priceId) {
+            console.log("Checkout clicked with price ID:", priceId);
+          }
+        }}
+      >
+        {isContactPlan ? "Contact Us" : "Get Started"}
+      </Button>
     </div>
-  );
-}
-
-export function WithSexyBorder({
-  variant,
-  className,
-  children,
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant: PriceCardVariant }) {
-  if (variant === 'pro') {
-    return (
-      <SexyBoarder className={className} offset={100}>
-        {children}
-      </SexyBoarder>
-    );
-  } else {
-    return <div className={className}>{children}</div>;
-  }
-}
-
-function PricingSwitch({ onChange }: { onChange: (value: BillingInterval) => void }) {
-  return (
-    <Tabs
-      defaultValue='month'
-      className='flex items-center'
-      onValueChange={(newBillingInterval) => onChange(newBillingInterval as BillingInterval)}
-    >
-      <TabsList className='m-auto'>
-        <TabsTrigger value='month'>Monthly</TabsTrigger>
-        <TabsTrigger value='year'>Yearly</TabsTrigger>
-      </TabsList>
-    </Tabs>
   );
 }
