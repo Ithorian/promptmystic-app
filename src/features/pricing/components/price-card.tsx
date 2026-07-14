@@ -1,8 +1,10 @@
 'use client';
 
+import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
+import { createCheckoutAction } from "@/features/pricing/actions/create-checkout-action";
 
 interface PricingCardProps {
   product: any;
@@ -50,6 +52,8 @@ export function PricingCard({ product, billingInterval }: PricingCardProps) {
 
   const features = planFeatures[product.name] || [];
 
+  const [isPending, startTransition] = useTransition();
+
   return (
     <div className="relative flex h-full flex-col rounded-2xl border bg-white p-8 shadow-sm transition-all hover:shadow-md">
       
@@ -93,6 +97,7 @@ export function PricingCard({ product, billingInterval }: PricingCardProps) {
         {/* Button sticks to bottom */}
         <div className="mt-auto">
           <Button
+            disabled={isPending}
             className={`w-full text-base font-medium ${
               isPopular
                 ? "bg-orange-500 text-white hover:bg-orange-600"
@@ -105,13 +110,13 @@ export function PricingCard({ product, billingInterval }: PricingCardProps) {
                 window.location.href = "mailto:hello@promptmystic.com?subject=Premium%20plan%20enquiry";
                 return;
               }
-              const priceId = (price as any)?.id;
-              if (priceId) {
-                console.log("Checkout with price ID:", priceId);
-              }
+              if (!price) return;
+              startTransition(() => {
+                createCheckoutAction({ price });
+              });
             }}
           >
-            {isContactPlan ? "Contact Us" : "Get Started"}
+            {isContactPlan ? "Contact Us" : isPending ? "Redirecting..." : "Get Started"}
           </Button>
         </div>
       </div>
