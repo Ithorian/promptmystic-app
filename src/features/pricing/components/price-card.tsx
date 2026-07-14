@@ -10,17 +10,14 @@ interface PricingCardProps {
 }
 
 export function PricingCard({ product, billingInterval }: PricingCardProps) {
-  const price = product.prices?.find(
-    (p: any) => p.interval === billingInterval
-  );
-
-  const isPopular = product.name === "Pro";
+  const price = product.prices?.find((p: any) => p.interval === billingInterval);
   const hasNumericPrice = Boolean(price?.unit_amount);
   const isContactPlan = !hasNumericPrice;
+  const isPopular = product.name === "Pro";
 
   const displayPrice = hasNumericPrice
     ? `$${(price!.unit_amount / 100).toFixed(0)}`
-    : "Custom";
+    : null;
 
   const priceLabel = billingInterval === "year" ? "/year" : "/month";
 
@@ -57,34 +54,33 @@ export function PricingCard({ product, billingInterval }: PricingCardProps) {
     <div className="relative flex h-full flex-col rounded-2xl border bg-white p-8 shadow-sm transition-all hover:shadow-md">
       
       {isPopular && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+        <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
           <Badge className="bg-orange-500 px-4 py-1 text-sm font-medium text-white hover:bg-orange-500">
             Most Popular
           </Badge>
         </div>
       )}
 
-      <div className="flex flex-col">
-        <div className="mb-2 text-xl font-semibold text-black">{product.name}</div>
+      {/* Header */}
+      <div className="mb-2 text-xl font-semibold text-black">{product.name}</div>
 
-        {/* Price Display */}
-        <div className="mb-6 flex min-h-[4.5rem] flex-col justify-center">
-          {isContactPlan ? (
-            <>
-              <span className="text-3xl font-bold tracking-tight text-black">Let's talk</span>
-              <span className="mt-1 text-sm text-neutral-600">
-                Custom pricing for your team
-              </span>
-            </>
-          ) : (
-            <div className="flex items-baseline">
-              <span className="text-5xl font-bold tracking-tighter text-black">{displayPrice}</span>
-              <span className="ml-1 text-lg text-neutral-500">{priceLabel}</span>
-            </div>
-          )}
-        </div>
+      {/* Price */}
+      <div className="mb-6 flex min-h-[4.5rem] flex-col justify-center">
+        {isContactPlan ? (
+          <>
+            <span className="text-3xl font-bold tracking-tight text-black">Let's talk</span>
+            <span className="mt-1 text-sm text-neutral-600">Custom pricing for your team</span>
+          </>
+        ) : (
+          <div className="flex items-baseline">
+            <span className="text-5xl font-bold tracking-tighter text-black">{displayPrice}</span>
+            <span className="ml-1 text-lg text-neutral-500">{priceLabel}</span>
+          </div>
+        )}
+      </div>
 
-        {/* Features */}
+      {/* Features + Button */}
+      <div className="flex flex-1 flex-col">
         <ul className="mb-8 flex-1 space-y-3 text-sm text-neutral-700">
           {features.map((feature, index) => (
             <li key={index} className="flex items-start gap-3">
@@ -93,29 +89,32 @@ export function PricingCard({ product, billingInterval }: PricingCardProps) {
             </li>
           ))}
         </ul>
-      </div>
 
-      <Button
-        className={`w-full text-base font-medium ${
-          isPopular 
-            ? "bg-orange-500 hover:bg-orange-600 text-white" 
-            : isContactPlan
-              ? "bg-neutral-900 hover:bg-black text-white"
-              : "bg-primary hover:bg-primary/90"
-        }`}
-        onClick={async () => {
-          if (isContactPlan) {
-            window.location.href = "mailto:patrick@montereyminerals.com?subject=Premium%20plan%20enquiry";
-            return;
-          }
-          const priceId = (price as any)?.id;
-          if (priceId) {
-            console.log("Checkout clicked with price ID:", priceId);
-          }
-        }}
-      >
-        {isContactPlan ? "Contact Us" : "Get Started"}
-      </Button>
+        {/* Button sticks to bottom */}
+        <div className="mt-auto">
+          <Button
+            className={`w-full text-base font-medium ${
+              isPopular
+                ? "bg-orange-500 text-white hover:bg-orange-600"
+                : isContactPlan
+                ? "bg-neutral-900 text-white hover:bg-black"
+                : "bg-primary text-white hover:bg-primary/90"
+            }`}
+            onClick={() => {
+              if (isContactPlan) {
+                window.location.href = "mailto:hello@promptmystic.com?subject=Premium%20plan%20enquiry";
+                return;
+              }
+              const priceId = (price as any)?.id;
+              if (priceId) {
+                console.log("Checkout with price ID:", priceId);
+              }
+            }}
+          >
+            {isContactPlan ? "Contact Us" : "Get Started"}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

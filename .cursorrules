@@ -15,7 +15,8 @@
 Use the following format for commits:
 type: short description
 Optional longer explanation if needed.
-text**Common types:**
+
+**Common types:**
 - `feat:` — New feature
 - `fix:` — Bug fix
 - `docs:` — Documentation changes
@@ -31,8 +32,11 @@ text**Common types:**
 ## Package Manager
 - Use **pnpm** exclusively for this project.
 - Never use npm or yarn.
-- Always run `pnpm install` when adding or updating dependencies.
-- The project uses a `pnpm-lock.yaml` file.
+- Run `pnpm install` when adding or updating dependencies.
+- The project uses a `pnpm-lock.yaml` file and it must be committed.
+- Common commands: `pnpm dev`, `pnpm build`, `pnpm lint`
+
+**Vercel Note:** Vercel automatically detects and uses pnpm when `pnpm-lock.yaml` is present.
 
 ## Tech Stack Specific Rules
 

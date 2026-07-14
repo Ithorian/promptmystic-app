@@ -14,6 +14,12 @@ export default function PricingSection({ products, isPricingPage }: PricingSecti
 
   const HeadingLevel = isPricingPage ? 'h1' : 'h2';
 
+  // Sort products: Starter → Pro → Premium
+  const sortedProducts = [...products].sort((a, b) => {
+    const order = ['Starter', 'Pro', 'Premium'];
+    return order.indexOf(a.name) - order.indexOf(b.name);
+  });
+
   return (
     <section className="relative rounded-lg bg-black py-8">
       <div className="relative z-10 m-auto flex max-w-[1200px] flex-col items-center gap-8 px-4 pt-8 lg:pt-[140px]">
@@ -35,12 +41,12 @@ export default function PricingSection({ products, isPricingPage }: PricingSecti
 
         {/* Pricing Cards */}
         <div className="grid w-full max-w-6xl grid-cols-1 gap-6 md:grid-cols-3 lg:gap-8">
-          {products.length === 0 ? (
+          {sortedProducts.length === 0 ? (
             <p className="text-center text-neutral-400">
               No plans are available right now. Please check back soon.
             </p>
           ) : (
-            products.map((product: any) => (
+            sortedProducts.map((product: any) => (
               <PricingCard 
                 key={product.id} 
                 product={product} 

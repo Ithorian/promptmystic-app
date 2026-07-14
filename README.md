@@ -36,8 +36,11 @@ All project documentation is located in the `docs/` folder:
 git clone https://github.com/Ithorian/promptmystic-app.git
 cd promptmystic-app
 pnpm install
+
 Create a .env.local file using .env.local.example and add your credentials, then run:
-Bashpnpm dev
+pnpm dev
+
 For detailed setup instructions and project guidelines, see the documentation in the docs/ folder.
 
-Last updated: June 11, 2026
+Last updated: July 13, 2026
+
