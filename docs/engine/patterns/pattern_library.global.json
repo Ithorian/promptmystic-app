@@ -1,0 +1,69 @@
+{
+  "library": "global_curated",
+  "schema_version": "1.0",
+  "note": "Founder-created SYNTHETIC / manually generalized records only. These carry global_eligible=true because they were authored fresh by the founder, NOT extracted from real user history. Records derived from private user history must NEVER be placed here unless explicit consent + de-identification + evidence review + founder approval have occurred; until then they belong in the private library (privacy_scope=private_user, global_eligible=false).",
+  "records": [
+    {
+      "id": "P-0001",
+      "kind": "strategy",
+      "schema_version": "1.0",
+      "engine_compat": { "min_engine_version": "1.0.0", "models_validated": ["claude-sonnet-4-5"] },
+      "title": "Beginner marketplace side-hustle roadmap (idea to first sale)",
+      "retrieval_keys": {
+        "task_category": "side_hustle_plan",
+        "audience": "senior_low_tech",
+        "sub_tags": ["marketplace", "handmade", "digital-product", "first-sale"],
+        "trigger_phrases": ["side hustle", "sell", "first sale", "make money", "beginner"]
+      },
+      "strategy": {
+        "expert_role": "experienced marketplace-seller coach for non-technical beginners",
+        "recommended_sections": ["role", "what_i_need", "context", "what_to_include", "how_to_present"],
+        "section_hints": {
+          "what_to_include": [
+            "plain-English definition + one concrete example",
+            "simple pricing formula",
+            "how to get first sales without ads",
+            "realistic 30/90-day expectations",
+            "quick-start checklist"
+          ]
+        },
+        "constraints": ["explain every term on first use", "tools free or under $15/month", "honest about the effort involved", "doable by one person from home"],
+        "tone": "warm-plain (kitchen-table friend, no life-coach language)",
+        "target_length_chars": [500, 1100],
+        "clarify_slots": ["what_kind_of_work", "budget"],
+        "examples_policy": "include a brief example only if it raises quality"
+      },
+      "provenance": { "created_by": "founder_synthetic", "created_at": "2026-07-25", "origin": "synthetic" },
+      "evidence": { "supporting_records": 0, "avg_rating": null, "copy_rate": null, "rating_stddev": null },
+      "confidence": 0.6,
+      "privacy_scope": "global_curated",
+      "consent": { "global_eligible": true, "raw_content_excluded": true, "explicit_user_consent": false },
+      "lifecycle": { "status": "approved", "version": 1, "promoted_at": "2026-07-25", "deprecated_at": null, "rollback_of": null, "supersedes": null }
+    },
+    {
+      "id": "AP-0001",
+      "kind": "anti_pattern",
+      "schema_version": "1.0",
+      "engine_compat": { "min_engine_version": "1.0.0", "models_validated": ["claude-sonnet-4-5"] },
+      "title": "One-shot full app build for a non-technical user",
+      "retrieval_keys": {
+        "task_category": "app_build",
+        "audience": "senior_low_tech",
+        "sub_tags": ["multi-feature", "vision", "marketplace-integration", "automation"],
+        "trigger_phrases": ["build an app", "build a system", "identify", "auto-list", "complete system", "full app"]
+      },
+      "defect": {
+        "symptoms": ["scope too large for one prompt", "overwhelming for a non-technical user", "low buildability", "user requests a substantial revision"],
+        "root_cause": "asking one prompt to deliver requirements + architecture + MVP + integrations at once",
+        "correction": "split into phased prompts (Requirements -> Architecture -> MVP -> Features -> Testing), deliver one at a time, and prefer a build tool (e.g. Claude Code) for the build steps",
+        "evidence_types": ["major_revision", "founder_review", "repeated_failure", "downstream_underperformance", "user_rating"]
+      },
+      "provenance": { "created_by": "founder_synthetic", "created_at": "2026-07-25", "origin": "synthetic" },
+      "evidence": { "supporting_records": 0, "avg_rating": null, "copy_rate": null, "rating_stddev": null },
+      "confidence": 0.6,
+      "privacy_scope": "global_curated",
+      "consent": { "global_eligible": true, "raw_content_excluded": true, "explicit_user_consent": false },
+      "lifecycle": { "status": "approved", "version": 1, "promoted_at": "2026-07-25", "deprecated_at": null, "rollback_of": null, "supersedes": null }
+    }
+  ]
+}

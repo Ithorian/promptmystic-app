@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "promptmystic/preference-profile",
+  "title": "Preference Profile",
+  "description": "Compact, per-user, trusted-derived signals recomputed periodically from active history. Contains DERIVED signals only, never raw prompt content. PRIVATE by default; never globally eligible without explicit consent.",
+  "type": "object",
+  "required": ["schema_version", "updated_at", "source_count"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "source_count": { "type": "integer", "minimum": 0, "description": "Number of records the profile was computed from." },
+    "tone": { "type": ["string", "null"], "description": "e.g. warm-plain" },
+    "preferred_length_band": { "type": ["string", "null"], "description": "e.g. concise, standard, detailed" },
+    "likes_phased_builds": { "type": ["boolean", "null"] },
+    "common_task_categories": { "type": "array", "items": { "type": "string" } },
+    "prefers_delivery_one_at_a_time": { "type": ["boolean", "null"] },
+    "escape_hatch_frequency": { "type": ["number", "null"], "minimum": 0, "maximum": 1, "description": "How often the user chooses 'use your best judgment'." },
+    "signal_confidence": { "type": "object", "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 }, "description": "Per-slot confidence; a slot must reach >=0.7 with evidence>=3 to eliminate a clarifying question." },
+    "global_eligible": { "type": "boolean", "const": false, "description": "Derived user preferences are NEVER globally eligible by default. De-identification alone does not create consent." }
+  }
+}

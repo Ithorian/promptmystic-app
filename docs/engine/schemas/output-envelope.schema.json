@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "promptmystic/output-envelope",
+  "title": "Engine Output Envelope",
+  "description": "Logical structure of one engine turn. Skill/web adapters render this as conversational text (they do not literally emit JSON), but the same fields and rules apply. The copyable prompt is ALWAYS isolated in final_prompt and contains no commentary.",
+  "type": "object",
+  "required": ["engine_version", "state"],
+  "additionalProperties": false,
+  "properties": {
+    "engine_version": { "type": "string" },
+    "state": { "type": "string", "enum": ["AWAITING_ANSWER", "DELIVERED", "REFUSED"] },
+    "clarifying_question": {
+      "type": ["object", "null"],
+      "required": ["text", "choices", "allow_free_text"],
+      "properties": {
+        "text": { "type": "string" },
+        "choices": { "type": "array", "items": { "type": "string" }, "description": "Must include a prominent escape-hatch choice such as 'Use your best judgment'." },
+        "allow_free_text": { "type": "boolean" }
+      }
+    },
+    "assumptions_disclosed": { "type": "array", "items": { "type": "string" } },
+    "final_prompt": { "type": ["string", "null"], "description": "Copyable prompt ONLY. No explanation, assumptions, or commentary inside it." },
+    "explainer": {
+      "type": ["object", "null"],
+      "properties": {
+        "why_it_works": { "type": "string" },
+        "optimized_for": { "type": "string" }
+      }
+    },
+    "warm_line": { "type": ["string", "null"], "description": "At most one short encouraging sentence by default." },
+    "telemetry": {
+      "type": "object",
+      "properties": {
+        "questions_asked": { "type": "integer", "minimum": 0 },
+        "prompt_char_count": { "type": "integer", "minimum": 0 },
+        "sections_used": { "type": "array", "items": { "type": "string" } },
+        "review_changes": { "type": "array", "items": { "type": "string" } },
+        "compression_applied": { "type": "boolean" },
+        "anti_patterns_checked": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

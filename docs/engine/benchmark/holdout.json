@@ -1,0 +1,21 @@
+{
+  "split": "holdout",
+  "note": "Synthetic cases NEVER tuned against. Used for go/no-go. No private user content.",
+  "cases": [
+    { "id": "hold-001", "category": "side_hustle_plan", "audience": "senior_low_tech", "input": "I want to start selling homemade jam at the farmers market and online.", "expect": { "max_questions": 2, "length_band": [500, 1200], "forbid": ["role_inflation", "life_coach"] } },
+    { "id": "hold-002", "category": "digital_product", "audience": "senior_low_tech", "input": "Help me create and sell printable coloring pages for grandparents and grandkids.", "expect": { "max_questions": 2, "length_band": [500, 1100], "forbid": ["role_inflation"] } },
+    { "id": "hold-003", "category": "service_business", "audience": "senior_low_tech", "input": "I want to do simple bookkeeping for tiny local businesses.", "expect": { "max_questions": 2, "length_band": [500, 1100] } },
+    { "id": "hold-004", "category": "message_writing", "audience": "general", "input": "Write a thank-you note to a neighbor who helped me after surgery.", "expect": { "max_questions": 0, "length_band": [150, 500], "require": ["assumption_disclosed_ok"] } },
+    { "id": "hold-005", "category": "teaching", "audience": "senior_low_tech", "input": "I want to teach a beginner watercolor class at the community center.", "expect": { "max_questions": 2, "length_band": [500, 1100] } },
+    { "id": "hold-006", "category": "resale", "audience": "senior_low_tech", "input": "Help me resell vintage kitchenware I find at estate sales.", "expect": { "max_questions": 2, "length_band": [500, 1200], "forbid": ["role_inflation"] } },
+    { "id": "hold-007", "category": "pitch_script", "audience": "senior_low_tech", "input": "A gentle script to offer my handyman services to neighbors.", "expect": { "max_questions": 1, "length_band": [300, 900], "forbid": ["life_coach"] } },
+    { "id": "hold-008", "category": "content_creation", "audience": "senior_low_tech", "input": "Prompt to write short encouraging captions for my faith-based crafts.", "expect": { "max_questions": 1, "length_band": [300, 800], "forbid": ["role_inflation"] } },
+    { "id": "hold-009", "category": "pricing_help", "audience": "senior_low_tech", "input": "How do I price a set of hand-knitted scarves?", "expect": { "max_questions": 1, "length_band": [300, 800] } },
+    { "id": "hold-010", "category": "email", "audience": "senior_low_tech", "input": "Help me email a shop owner to ask if they'd sell my honey.", "expect": { "max_questions": 1, "length_band": [200, 700] } },
+    { "id": "hold-011", "category": "planning", "audience": "senior_low_tech", "input": "Give me a 30-day plan to launch a small Etsy shop for my woodworking.", "expect": { "max_questions": 2, "length_band": [500, 1200], "forbid": ["role_inflation"] } },
+    { "id": "hold-012", "category": "customer_reply", "audience": "senior_low_tech", "input": "Reply politely to a customer asking for a refund on a used item.", "expect": { "max_questions": 1, "length_band": [200, 700], "forbid": ["life_coach"] } },
+    { "id": "hold-013", "category": "learning_plan", "audience": "senior_low_tech", "input": "I want to understand how to use ChatGPT for my small craft business without getting lost.", "expect": { "max_questions": 2, "length_band": [500, 1100], "forbid": ["life_coach"], "require": ["escape_hatch_if_question"] } },
+    { "id": "hold-014", "category": "social_post", "audience": "senior_low_tech", "input": "Write a friendly post announcing my new booth at the local craft fair.", "expect": { "max_questions": 1, "length_band": [200, 600] } },
+    { "id": "hold-015", "category": "getting_started", "audience": "senior_low_tech", "input": "I have free time and want extra income but I'm not techy. Where do I even begin?", "expect": { "max_questions": 3, "length_band": [400, 1100], "forbid": ["life_coach"], "require": ["escape_hatch_if_question"] } }
+  ]
+}

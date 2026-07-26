@@ -37,3 +37,12 @@ next-env.d.ts
 
 # supabase
 /supabase/.temp/
+
+# PromptMystic private local learning stores — raw user content, never commit.
+# (Canonical location is out of repo in ~/.claude/skills/promptmystic/. These
+# defensive rules ensure they are ignored even if generated inside the repo.)
+prompt_history.json
+generation_history.json
+generation_archive.json
+preference_profile.json
+pattern_library.private.json
