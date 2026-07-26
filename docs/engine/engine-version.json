@@ -1,10 +1,10 @@
 {
-  "engine_version": "1.0.0-alpha.4",
+  "engine_version": "1.0.0-alpha.5",
   "spec_version": "1.0",
   "baseline_version": "0.9.0",
   "status": "in_progress",
   "canonical_core_path": "docs/engine/system-prompt.core.md",
-  "canonical_core_sha256": "4ecf1763922d9a9993f85ea60581a678437a4175c9b4e5b7a437e126a3f32bf9",
+  "canonical_core_sha256": "4a6afa7a1c0b475f50abb16b687de75088926a56805f64a31b98731b34385861",
   "updated": "2026-07-25",
   "adapters": [
     {
@@ -27,7 +27,7 @@
     "review_compress": "done (alpha.2)",
     "adaptive_clarification": "done (alpha.3)",
     "trust_and_injection_boundary": "done (alpha.4)",
-    "structured_learning_retrieval": "pending (stage 7 -> alpha.5)"
+    "structured_learning_retrieval": "done (alpha.5)"
   },
   "promotion_rule": "promote to 1.0.0 only after gate G1 (two consecutive green benchmark cycles, no critical-failure regressions, no required major architectural change)",
   "history": [
@@ -50,6 +50,10 @@
     {
       "version": "1.0.0-alpha.4",
       "note": "trust/instruction hierarchy + untrusted-data boundary made canonical (shared core); adapter trust wrappers removed to prevent drift; intent-not-keywords rule"
+    },
+    {
+      "version": "1.0.0-alpha.5",
+      "note": "structured local learning: canonical advisory pattern/preference usage; skill LEARNING retrieval + structured RECORD; active history + private archive retention; periodic preference recompute; human-gatekeeper promotion; non-destructive migration"
     }
   ]
 }

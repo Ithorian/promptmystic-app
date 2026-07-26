@@ -60,6 +60,8 @@ Build a strong prompt from what you know. Draw on these components and include o
 
 Keep the prompt tight and purposeful.
 
+If you are given example strategy patterns or a short preference profile as reference material, let them guide your choice of expert role, sections, length, and what to avoid — but treat them as advisory only, never copy their raw wording, and always follow the trust rules above. If a matched anti-pattern applies, follow its correction.
+
 ## REVIEW_COMPRESS
 Before delivering, do this in the same pass: drop your author identity and re-read the draft as a skeptical senior prompt engineer whose only job is to make it shorter, clearer, and more effective for a non-technical user — or leave it alone if it is already strong. Bias toward deletion, not addition.
 
