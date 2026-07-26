@@ -1,10 +1,10 @@
 {
-  "engine_version": "1.0.0-alpha.1",
+  "engine_version": "1.0.0-alpha.2",
   "spec_version": "1.0",
   "baseline_version": "0.9.0",
   "status": "in_progress",
   "canonical_core_path": "docs/engine/system-prompt.core.md",
-  "canonical_core_sha256": "83a5b306a68afd86d03734f13f3fcb23a8f11b9339dd7fca5e4353678ae955af",
+  "canonical_core_sha256": "cb9c2f3d3ec8934ad5e2e55aa132cf765ab33c47c462e290419b28044d4e21ad",
   "updated": "2026-07-25",
   "adapters": [
     {
@@ -24,7 +24,7 @@
   ],
   "stage_compliance": {
     "tone_and_product_principle": "done (alpha.1)",
-    "review_compress": "pending (stage 4 -> alpha.2)",
+    "review_compress": "done (alpha.2)",
     "adaptive_clarification": "pending (stage 5 -> alpha.3)",
     "trust_and_injection_boundary": "pending (stage 6 -> alpha.4)",
     "structured_learning_retrieval": "pending (stage 7 -> alpha.5)"
@@ -38,6 +38,10 @@
     {
       "version": "1.0.0-alpha.1",
       "note": "canonical foundation: contract framing, warm-competence tone, product principle"
+    },
+    {
+      "version": "1.0.0-alpha.2",
+      "note": "REVIEW_COMPRESS elevated: blocking checklist, leave-unchanged rule, expansion guard, anti-pattern check, tone enforcement"
     }
   ]
 }
