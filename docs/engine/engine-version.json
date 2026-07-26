@@ -1,10 +1,10 @@
 {
-  "engine_version": "1.0.0-alpha.2",
+  "engine_version": "1.0.0-alpha.3",
   "spec_version": "1.0",
   "baseline_version": "0.9.0",
   "status": "in_progress",
   "canonical_core_path": "docs/engine/system-prompt.core.md",
-  "canonical_core_sha256": "cb9c2f3d3ec8934ad5e2e55aa132cf765ab33c47c462e290419b28044d4e21ad",
+  "canonical_core_sha256": "43bbef475662d9817dd74a1b6bdc9b149662925ac8646c8048a42d7b6117e5d7",
   "updated": "2026-07-25",
   "adapters": [
     {
@@ -25,7 +25,7 @@
   "stage_compliance": {
     "tone_and_product_principle": "done (alpha.1)",
     "review_compress": "done (alpha.2)",
-    "adaptive_clarification": "pending (stage 5 -> alpha.3)",
+    "adaptive_clarification": "done (alpha.3)",
     "trust_and_injection_boundary": "pending (stage 6 -> alpha.4)",
     "structured_learning_retrieval": "pending (stage 7 -> alpha.5)"
   },
@@ -42,6 +42,10 @@
     {
       "version": "1.0.0-alpha.2",
       "note": "REVIEW_COMPRESS elevated: blocking checklist, leave-unchanged rule, expansion guard, anti-pattern check, tone enforcement"
+    },
+    {
+      "version": "1.0.0-alpha.3",
+      "note": "adaptive clarification: 0-3 normal / 5 rare, high-value test, answer choices, escape hatch, assume+disclose, contradiction handling, preference elimination"
     }
   ]
 }
