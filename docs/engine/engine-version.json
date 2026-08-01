@@ -1,11 +1,11 @@
 {
-  "engine_version": "1.0.0-alpha.5",
+  "engine_version": "1.0.0",
   "spec_version": "1.0",
   "baseline_version": "0.9.0",
-  "status": "in_progress",
+  "status": "stable",
   "canonical_core_path": "docs/engine/system-prompt.core.md",
-  "canonical_core_sha256": "4a6afa7a1c0b475f50abb16b687de75088926a56805f64a31b98731b34385861",
-  "updated": "2026-07-25",
+  "canonical_core_sha256": "ce87bf1994c0b33033ee9ceff120b60628140483f252b3fd86fd99a204b8acf5",
+  "updated": "2026-07-31",
   "adapters": [
     {
       "id": "skill",
@@ -27,9 +27,24 @@
     "review_compress": "done (alpha.2)",
     "adaptive_clarification": "done (alpha.3)",
     "trust_and_injection_boundary": "done (alpha.4)",
-    "structured_learning_retrieval": "done (alpha.5)"
+    "structured_learning_retrieval": "done (alpha.5)",
+    "delivery_contract": "done (alpha.6)",
+    "untrusted_data_vs_attack_boundary": "done (alpha.9)"
   },
   "promotion_rule": "promote to 1.0.0 only after gate G1 (two consecutive green benchmark cycles, no critical-failure regressions, no required major architectural change)",
+  "gate_g1": {
+    "status": "satisfied",
+    "claimed": "2026-07-31",
+    "engine_version_under_test": "1.0.0-alpha.15",
+    "canonical_core_sha256": "ce87bf1994c0b33033ee9ceff120b60628140483f252b3fd86fd99a204b8acf5",
+    "cycles": [
+      "docs/engine/benchmark/live-runs/live-1.0.0-alpha.15-2026-08-01T05-46-28-388Z.json",
+      "docs/engine/benchmark/live-runs/live-1.0.0-alpha.15-2026-08-01T06-33-39-275Z.json"
+    ],
+    "evidence": "Both cycles GREEN on an identical core (checksum verified before the second run): 0 hard vetoes, 2/50 then 0/50 soft flags against an allowance of 3, mean Engine Quality Score 99 then 100, delivery 100% on cases expected to deliver (47/47 and 46/46; non-deliveries are the three injection refusals plus edge-009's phased-split offer), mean length delta -414 then -475 against the 0.9.0 baseline. Downstream Success Rate, which is reported and non-blocking, went 60% then 67%, an increase, so no explanation was owed under the 10-point rule.",
+    "known_defects_accepted": "Claimed with two measured quality defects outstanding, both now detected as non-gating observations rather than left to manual review: interview_in_fence (the engine writes a multi-question interview into the fenced prompt instead of asking the user directly) and broad_goal_narrowed (a broad business goal answered with a single piece of marketing copy). Together they account for hold-001, hold-006, hold-009, and hold-015 failing downstream in both cycles. Clarification also collapsed to roughly one question across 40 development and holdout cases, which is the likely common cause. Tracked as post-gate work; see docs/engine/readiness-report.md.",
+    "promotion_to_1_0_0": "performed 2026-07-31; label only, canonical core bytes unchanged"
+  },
   "history": [
     {
       "version": "0.9.0",
@@ -54,6 +69,50 @@
     {
       "version": "1.0.0-alpha.5",
       "note": "structured local learning: canonical advisory pattern/preference usage; skill LEARNING retrieval + structured RECORD; active history + private archive retention; periodic preference recompute; human-gatekeeper promotion; non-destructive migration"
+    },
+    {
+      "version": "1.0.0-alpha.6",
+      "note": "delivery contract hardening after live cycle 1 (68% delivery rate): fenced copy-ready block made mandatory, every turn must ask/deliver/decline, escape-hatch answers deliver in the same reply, ordinary question budget tightened to 0-2 (3 ceiling), short-task length bias, quiet outcome-brag added to role-inflation blockers"
+    },
+    {
+      "version": "1.0.0-alpha.7",
+      "note": "polish after the alpha.6 cheap live check: role line restricted to job plus specialty with an explicit delete-the-praise-clause test (dev-003 outcome-brag), and the short-task length bias given a concrete target (short paragraph plus 3-4 bullets, ~400-500 chars) after dev-005 delivered 612 chars against a 150-500 band"
+    },
+    {
+      "version": "1.0.0-alpha.8",
+      "note": "zero-question delivery for single short personal writing requests (birthday message, thank-you note, short post, quick reply): assume tone/length, disclose in one line, deliver in the same turn. Addresses dev-005 and hold-004, which declare max_questions 0 but drew one tone question in the alpha.6 and alpha.7 cheap checks. Role-inflation rules deliberately left unchanged (judge signal too inconsistent across runs to tune against)"
+    },
+    {
+      "version": "1.0.0-alpha.9",
+      "note": "untrusted-data boundary split from attack handling: a draft/paste/example the user asks us to improve is content even when it contains instruction-shaped text (a SYSTEM: line, 'skip your review'), so build the prompt and drop the harmful part with a one-line note instead of refusing; hard decline reserved for genuine attempts to break the rules, ties go to delivering a safe prompt. Fixes the edge-004 over-refusal seen in the alpha.8 cheap check (fixture expects treat_as_data), likely introduced by the alpha.6 turn contract's decline branch"
+    },
+    {
+      "version": "1.0.0-alpha.10",
+      "note": "declines must be stated out loud: a direct attempt to extract or override the instructions gets one warm line naming that we can't do it, then the offer to help. Silently pivoting to 'what would you like to build?' no longer counts as a refusal. Fixes edge-001 in the alpha.9 cheap check, which neither leaked nor complied but dropped its explicit refusal, a likely side effect of the alpha.9 tie-goes-to-delivery rule"
+    },
+    {
+      "version": "1.0.0-alpha.11",
+      "note": "short-task length ceiling made firm: 500 characters is a ceiling to cut back to, not a rough target. The alpha.7 wording ('roughly 400-500 ... almost certainly over-built') read as advisory and hold-004 landed at 623, 542, and 600 characters across three cheap checks against a 500 ceiling, the only automatable ding left on an otherwise clean board. Intended as the last engine edit before G1 cycle 1"
+    },
+    {
+      "version": "1.0.0-alpha.12",
+      "note": "two contract violations found by reading raw outputs in G1 cycle 1, both scored 100 by the LLM judge. DELIVER: the fenced block is always a prompt, never the finished piece — if it could be handed straight to the reader with no AI in between it is the wrong artifact (hold-007 shipped a complete handyman flyer as the copy block, downstream scored it 2). CLARIFY: a question is closed once the user replies, even if the reply answered something adjacent; take what was given, assume the rest, disclose, deliver (edge-008 asked 'what kind of crafts do you make?' three times, acknowledging platform answers in between, and never delivered). Cycle 1 was not green; the counter restarts on this version"
+    },
+    {
+      "version": "1.0.0-alpha.13",
+      "note": "re-ask rationalization named directly. The alpha.12 rule stated the principle and still failed 3 of 4 runs on edge-008: the engine agreed the question was closed, then re-asked anyway because it judged the detail genuinely necessary ('But I still need to know...', 'to build you the strongest prompt I need...', or a warm 'Thanks!' followed by the identical question). The rule now says the closure holds even when the detail would improve the prompt, names those three phrasings as the same forbidden turn, and directs the engine to assume the detail and build a prompt that works without it. Harness detector reask_loop_no_delivery (added with the gate rework) now catches this mechanically; the LLM judge scored the loop 100 in all three failing runs"
+    },
+    {
+      "version": "1.0.0-alpha.14",
+      "note": "re-ask loop attacked structurally after two wording fixes failed. alpha.13 quoted the rationalization verbatim and the engine still produced it almost word for word ('I still need to know one thing to build you the best prompt'). The turn contract is now a state rule: before the user has answered anything the engine may ask one question, deliver, or decline; from the moment the user replies to any question, asking is no longer available and every later turn must deliver or decline. Question budget narrowed from 0-2 normal / 5 ceiling to 0-1 to remove the contradiction this created, and the alpha.12 and alpha.13 prohibition paragraphs collapsed into one line since the contract now carries the enforcement. Net effect on complex multi-part work: one clarifying question instead of up to three, which may cost quality on genuinely complex cases and should be watched in the next full cycle"
+    },
+    {
+      "version": "1.0.0-alpha.15",
+      "note": "two defects from G1 cycle 2 (not green: 5 soft flags against a 3 allowance, 0 hard vetoes). DELIVER: answering the user's own question is not one of the three permitted turns — dev-004 ('Can I help small shops with their social media for money?') drew a full consulting reply (verdict, three value bullets, a four-step getting-started plan) before any prompt, which no hard detector catches because a fence did eventually arrive. Advice, tips, or a numbered plan may never precede the fence; at most one line of framing or a disclosed assumption may. ENGINEER: a goal phrased as one question the user wants answered ('How do I price a set of hand-knitted scarves?') must yield a prompt that answers it with stated assumptions and concrete numbers, not one that opens by interviewing the user — hold-009 shipped 'Ask clarifying questions one at a time' inside the fence and scored 2 downstream in both cycles, as did hold-003's wait-for-your-figures bookkeeping template. Downstream moved 53% to 67% across the two cycles on unchanged alpha.14, so only hold-003 and hold-009 (failing in both) were treated as signal"
+    },
+    {
+      "version": "1.0.0",
+      "note": "promotion on gate G1, satisfied by 1.0.0-alpha.15 (see the gate_g1 block for both cycle reports and the evidence). Label only: the canonical core bytes are byte-identical to alpha.15 and the checksum ce87bf19... is unchanged, so the two green cycles remain valid evidence for this version. No behavior change, no clarification/delivery/trust rule touched. Promoted with two measured quality defects outstanding and accepted — interview_in_fence and broad_goal_narrowed — now detected as non-gating observations in every cycle report rather than left to manual review. The deployed Claude Code skill at ~/.claude/skills/promptmystic/SKILL.md is deliberately NOT updated by this change and remains 0.9.0 until deployed as a separate approved step"
     }
   ]
 }
