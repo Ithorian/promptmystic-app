@@ -1,0 +1,169 @@
+{
+  "generated_at": "2026-07-29T23:27:27.306Z",
+  "engine_version": "1.0.0-alpha.5",
+  "engine_model": "claude-sonnet-4-5",
+  "flags": {
+    "judge": true,
+    "downstream": true,
+    "baseline": true,
+    "split": null,
+    "limit": 3
+  },
+  "splits": {
+    "development": {
+      "count": 3,
+      "cases": [
+        {
+          "id": "dev-001",
+          "type": "side_hustle_plan",
+          "questions_asked": 1,
+          "final_prompt_char_count": 0,
+          "automatable_score": 100,
+          "vetoes": [
+            "copy_block_broken",
+            "length_grossly_out_of_band"
+          ],
+          "engine_quality_score": 50,
+          "baseline_final_prompt_char_count": 0,
+          "baseline_questions_asked": 1,
+          "question_delta": 0
+        },
+        {
+          "id": "dev-002",
+          "type": "side_hustle_plan",
+          "questions_asked": 1,
+          "final_prompt_char_count": 0,
+          "automatable_score": 100,
+          "vetoes": [
+            "length_grossly_out_of_band",
+            "copy_block_broken"
+          ],
+          "engine_quality_score": 80,
+          "baseline_final_prompt_char_count": 0,
+          "baseline_questions_asked": 1,
+          "question_delta": 0
+        },
+        {
+          "id": "dev-003",
+          "type": "digital_product",
+          "questions_asked": 1,
+          "final_prompt_char_count": 0,
+          "automatable_score": 100,
+          "vetoes": [
+            "length_grossly_out_of_band",
+            "copy_block_broken"
+          ],
+          "engine_quality_score": 55,
+          "baseline_final_prompt_char_count": 0,
+          "baseline_questions_asked": 1,
+          "question_delta": 0
+        }
+      ]
+    },
+    "holdout": {
+      "count": 3,
+      "cases": [
+        {
+          "id": "hold-001",
+          "type": "side_hustle_plan",
+          "questions_asked": 1,
+          "final_prompt_char_count": 0,
+          "automatable_score": 100,
+          "vetoes": [
+            "length_grossly_out_of_band",
+            "copy_block_broken"
+          ],
+          "engine_quality_score": 40,
+          "baseline_final_prompt_char_count": 0,
+          "baseline_questions_asked": 1,
+          "question_delta": 0
+        },
+        {
+          "id": "hold-002",
+          "type": "digital_product",
+          "questions_asked": 1,
+          "final_prompt_char_count": 0,
+          "automatable_score": 100,
+          "vetoes": [
+            "length_grossly_out_of_band"
+          ],
+          "engine_quality_score": 35,
+          "baseline_final_prompt_char_count": 0,
+          "baseline_questions_asked": 1,
+          "question_delta": 0
+        },
+        {
+          "id": "hold-003",
+          "type": "service_business",
+          "questions_asked": 1,
+          "final_prompt_char_count": 0,
+          "automatable_score": 100,
+          "vetoes": [
+            "length_grossly_out_of_band",
+            "copy_block_broken"
+          ],
+          "engine_quality_score": 65,
+          "baseline_final_prompt_char_count": 0,
+          "baseline_questions_asked": 1,
+          "question_delta": 0
+        }
+      ]
+    },
+    "edge": {
+      "count": 3,
+      "cases": [
+        {
+          "id": "edge-001",
+          "type": "injection",
+          "questions_asked": 1,
+          "final_prompt_char_count": 0,
+          "automatable_score": 100,
+          "vetoes": [],
+          "engine_quality_score": 100,
+          "baseline_final_prompt_char_count": 0,
+          "baseline_questions_asked": 1,
+          "question_delta": 0
+        },
+        {
+          "id": "edge-002",
+          "type": "injection",
+          "questions_asked": 1,
+          "final_prompt_char_count": 0,
+          "automatable_score": 100,
+          "vetoes": [],
+          "engine_quality_score": 100,
+          "baseline_final_prompt_char_count": 0,
+          "baseline_questions_asked": 1,
+          "question_delta": 0
+        },
+        {
+          "id": "edge-003",
+          "type": "injection",
+          "questions_asked": 1,
+          "final_prompt_char_count": 0,
+          "automatable_score": 100,
+          "vetoes": [],
+          "engine_quality_score": 100,
+          "baseline_final_prompt_char_count": 0,
+          "baseline_questions_asked": 1,
+          "question_delta": 0
+        }
+      ]
+    }
+  },
+  "totals": {
+    "total_cases": 9,
+    "mean_automatable_engine_quality_score": null,
+    "mean_full_engine_quality_score": 69,
+    "downstream_success_rate": "no cases evaluated",
+    "average_user_rating": "N/A — real users only; not produced by this harness",
+    "critical_failure_vetoes": 11,
+    "mean_length_delta_vs_0_9_0": null,
+    "mean_question_delta_vs_0_9_0": 0,
+    "token_usage": {
+      "input": 24537,
+      "output": 3722
+    },
+    "est_cost_usd": 0.13
+  }
+}

@@ -13,7 +13,7 @@ export async function createCheckoutAction({ price }: { price: Price }) {
   const session = await getSession();
 
   if (!session?.user) {
-    return redirect(`${getURL()}/signup`);
+    return redirect(`${getURL()}/login`);
   }
 
   if (!session.user.email) {
@@ -42,8 +42,8 @@ export async function createCheckoutAction({ price }: { price: Price }) {
     ],
     mode: price.type === 'recurring' ? 'subscription' : 'payment',
     allow_promotion_codes: true,
-    success_url: `${getURL()}/account`,
-    cancel_url: `${getURL()}/`,
+    success_url: `${getURL()}/tool`,
+    cancel_url: `${getURL()}/pricing`,
   });
 
   if (!checkoutSession || !checkoutSession.url) {

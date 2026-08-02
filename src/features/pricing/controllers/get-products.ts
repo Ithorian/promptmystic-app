@@ -8,11 +8,11 @@ export async function getProducts() {
     .select('*, prices(*)')
     .eq('active', true)
     .eq('prices.active', true)
-    .order('metadata->index')
-    .order('unit_amount', { referencedTable: 'prices' });
+    .order('metadata->index');
 
   if (error) {
-    console.error(error.message);
+    console.error(error);
+    return [];
   }
 
   return data ?? [];

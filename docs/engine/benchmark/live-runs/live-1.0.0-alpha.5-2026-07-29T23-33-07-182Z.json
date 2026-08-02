@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-07-29T23:31:09.579Z",
+  "engine_version": "1.0.0-alpha.5",
+  "engine_model": "claude-sonnet-4-5",
+  "flags": {
+    "judge": true,
+    "downstream": false,
+    "baseline": true,
+    "split": "development",
+    "limit": 3
+  },
+  "splits": {
+    "development": {
+      "count": 3,
+      "cases": [
+        {
+          "id": "dev-001",
+          "type": "side_hustle_plan",
+          "questions_asked": 1,
+          "delivered": true,
+          "final_prompt_char_count": 936,
+          "final_prompt_excerpt": "You are an experienced e-commerce copywriter specializing in handmade and artisan products. Your task is to write product descriptions for handmade greeting cards that feel warm, authentic, and help customers imagine giving or receiving the card.\n\nFor each card, write a description that includes:\n- What makes this card special (the design, materials, or craftsmanship)\n- The occasion or sentiment i",
+          "raw_excerpt": "I'd like to ask just one quick question to make this really useful for you:\n\n**What's the main thing you need help with right now?**\n\n- Writing product descriptions that sell\n- Creating social media posts to promote your cards\n- Answering customer questions professionally\n- Use your best judgment\n\n---TURN---\n\nPerfect! I'll create a prompt to help you write compelling product descriptions for your handmade greeting cards — that's typically where a strong foundation starts. Here's your prompt:\n\n---\n\n```\nYou are an experienced e-commerce copywriter specializing in handmade and artisan products. Your task is to write product descriptions for handmade greeting cards that feel warm, authentic, and help customers imagine giving or receiving the card.\n\nFor each card, write a description that includes:\n- What makes this card special (the design, materials, or craftsmanship)\n- The occasion or sent",
+          "automatable_score": 100,
+          "vetoes": [],
+          "engine_quality_score": 100,
+          "baseline_final_prompt_char_count": 1310,
+          "baseline_questions_asked": 1,
+          "length_delta": -374,
+          "question_delta": 0
+        },
+        {
+          "id": "dev-002",
+          "type": "side_hustle_plan",
+          "questions_asked": 1,
+          "delivered": true,
+          "final_prompt_char_count": 920,
+          "final_prompt_excerpt": "You are an experienced small business consultant who specializes in helping people launch service-based side hustles, particularly in senior-friendly niches.\n\nI want to start a virtual tech support side hustle serving other seniors. Help me create a practical launch plan that covers:\n\n- What specific services I should offer (be concrete about what problems I'll solve)\n- How to price my services in",
+          "raw_excerpt": "I'd love to help you craft a prompt for this! Let me ask one quick thing:\n\n**What do you want the AI to help you with specifically?**\n\n- Create a business plan or roadmap for launching the service\n- Write marketing copy (like a website description or social media posts)\n- Design a service package (what to offer and how to price it)\n- Draft email templates or scripts for talking to potential clients\n- Use your best judgment\n\n---TURN---\n\nI'll create a prompt that helps you build a comprehensive launch plan — covering service design, pricing, marketing, and how to find your first clients. Here's your prompt:\n\n---\n\n```\nYou are an experienced small business consultant who specializes in helping people launch service-based side hustles, particularly in senior-friendly niches.\n\nI want to start a virtual tech support side hustle serving other seniors. Help me create a practical launch plan that ",
+          "automatable_score": 100,
+          "vetoes": [],
+          "engine_quality_score": 90,
+          "baseline_final_prompt_char_count": 1279,
+          "baseline_questions_asked": 1,
+          "length_delta": -359,
+          "question_delta": 0
+        },
+        {
+          "id": "dev-003",
+          "type": "digital_product",
+          "questions_asked": 1,
+          "delivered": true,
+          "final_prompt_char_count": 1183,
+          "final_prompt_excerpt": "You are a thoughtful prayer journal designer with experience in Christian devotional content and printable product creation. Your strength is creating journal prompts and page elements that feel personal, spiritually nourishing, and beautiful on the page.\n\nCreate printable prayer journal page content based on what I describe. Each page should include:\n\n- A meaningful daily or weekly prompt that en",
+          "raw_excerpt": "I'd love to help you create a prompt for generating prayer journal content! \n\nTo make this really effective, I need to understand what role the AI will play:\n\n**What would you like the AI to help you create?**\n\nA. Individual journal page layouts and prompts (like daily reflection questions, scripture spaces, gratitude sections)\n\nB. The overall structure and content plan for a complete journal (what goes in it, how it's organized)\n\nC. Marketing copy to sell the journals (product descriptions, listings, etc.)\n\nD. Something else — tell me what you have in mind\n\n---TURN---\n\nI'll assume you want help creating the actual journal page content and prompts — the heart of what makes each journal valuable. Here's your prompt:\n\n---\n\n**Optimized for:** GPT-4o or Claude\n\n**What makes this powerful:** It gives you a structured expert who understands both the spiritual depth people seek and the practica",
+          "automatable_score": 90,
+          "vetoes": [],
+          "engine_quality_score": 85,
+          "baseline_final_prompt_char_count": 1944,
+          "baseline_questions_asked": 1,
+          "length_delta": -761,
+          "question_delta": 0
+        }
+      ]
+    }
+  },
+  "totals": {
+    "total_cases": 3,
+    "mean_automatable_engine_quality_score": 97,
+    "mean_full_engine_quality_score": 92,
+    "downstream_success_rate": "NOT_RUN (pass --downstream)",
+    "average_user_rating": "N/A — real users only; not produced by this harness",
+    "critical_failure_vetoes": 0,
+    "mean_length_delta_vs_0_9_0": -498,
+    "mean_question_delta_vs_0_9_0": 0,
+    "token_usage": {
+      "input": 16889,
+      "output": 3838
+    },
+    "est_cost_usd": 0.11
+  }
+}

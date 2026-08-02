@@ -24,7 +24,9 @@ export async function POST(req: Request) {
   let event: Stripe.Event;
 
   try {
-    if (!sig || !webhookSecret) return;
+    if (!sig || !webhookSecret) {
+      return Response.json('Webhook Error: missing signature or secret', { status: 400 });
+    }
     event = stripeAdmin.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (error) {
     return Response.json(`Webhook Error: ${(error as any).message}`, { status: 400 });
@@ -67,7 +69,7 @@ export async function POST(req: Request) {
           throw new Error('Unhandled relevant event!');
       }
     } catch (error) {
-      console.error(error);
+      console.error(`[stripe-webhook] Failed to handle "${event.type}" (${event.id}):`, error);
       return Response.json('Webhook handler failed. View your nextjs function logs.', {
         status: 400,
       });

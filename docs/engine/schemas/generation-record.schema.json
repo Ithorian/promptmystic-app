@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "promptmystic/generation-record",
+  "title": "Generation Record",
+  "description": "One PromptMystic generation. Written to the ACTIVE working history (generation_history.json); older records move to the private archive. Raw user content is PRIVATE and never globally eligible by default.",
+  "type": "object",
+  "required": ["id", "schema_version", "engine_version", "created_at", "user_input", "final_prompt"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "description": "Stable ID, e.g. hist_2026-07-25T14:30:00Z" },
+    "schema_version": { "type": "string", "const": "1.0" },
+    "engine_version": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "user_input": { "type": "string", "description": "PRIVATE. Raw user words. Never copied to global learning or committed to git." },
+    "target_model": { "type": "string", "description": "e.g. Claude, GPT-4o, Claude Code, or a multi-prompt package label" },
+    "final_prompt": { "type": "string", "description": "PRIVATE. The delivered prompt." },
+    "questions_asked": { "type": "integer", "minimum": 0 },
+    "prompt_char_count": { "type": "integer", "minimum": 0 },
+    "sections_used": { "type": "array", "items": { "type": "string" } },
+    "assumptions_disclosed": { "type": "array", "items": { "type": "string" } },
+    "review_changes": { "type": "array", "items": { "type": "string" }, "description": "Meaningful REVIEW_COMPRESS edits (telemetry)." },
+    "compression_applied": { "type": "boolean" },
+    "anti_patterns_checked": { "type": "array", "items": { "type": "string" } },
+    "copied": { "type": ["boolean", "null"], "description": "Web-only signal; null in skill." },
+    "first_version_copied": { "type": ["boolean", "null"] },
+    "revision_requested": { "type": ["boolean", "null"] },
+    "revision_kind": { "type": ["string", "null"], "description": "e.g. shorter, more_detail, friendlier, more_professional, try_another" },
+    "user_rating": { "type": ["number", "null"], "minimum": 1, "maximum": 10, "description": "Real-user numeric rating. Feeds Average User Rating (north star) ONLY." },
+    "feedback": { "type": "string", "description": "Normalized field (replaces the old inconsistent user_feedback/notes)." }
+  }
+}

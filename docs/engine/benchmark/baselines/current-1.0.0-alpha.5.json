@@ -1,0 +1,293 @@
+{
+  "generated_at": "2026-07-26T04:22:25.210Z",
+  "splits": {
+    "development": {
+      "count": 25,
+      "scored": 2,
+      "pending_manual": 23,
+      "vetoes": [],
+      "cases": [
+        {
+          "id": "dev-001",
+          "type": "side_hustle_plan",
+          "automatable_score": 100,
+          "char_count": 843,
+          "vetoes": []
+        },
+        {
+          "id": "dev-002",
+          "type": "side_hustle_plan",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-003",
+          "type": "digital_product",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-004",
+          "type": "service_business",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-005",
+          "type": "message_writing",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-006",
+          "type": "email",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-007",
+          "type": "resale",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-008",
+          "type": "marketplace",
+          "automatable_score": 100,
+          "char_count": 672,
+          "vetoes": []
+        },
+        {
+          "id": "dev-009",
+          "type": "content_creation",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-010",
+          "type": "learning_plan",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-011",
+          "type": "local_service",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-012",
+          "type": "pricing_help",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-013",
+          "type": "pitch_script",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-014",
+          "type": "digital_product",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-015",
+          "type": "resume_letter",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-016",
+          "type": "social_post",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-017",
+          "type": "service_business",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-018",
+          "type": "faith_service",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-019",
+          "type": "teaching",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-020",
+          "type": "affiliate",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-021",
+          "type": "summary",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-022",
+          "type": "planning",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-023",
+          "type": "customer_reply",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-024",
+          "type": "product_description",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "dev-025",
+          "type": "getting_started",
+          "status": "PENDING_MANUAL"
+        }
+      ]
+    },
+    "holdout": {
+      "count": 15,
+      "scored": 0,
+      "pending_manual": 15,
+      "vetoes": [],
+      "cases": [
+        {
+          "id": "hold-001",
+          "type": "side_hustle_plan",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-002",
+          "type": "digital_product",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-003",
+          "type": "service_business",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-004",
+          "type": "message_writing",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-005",
+          "type": "teaching",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-006",
+          "type": "resale",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-007",
+          "type": "pitch_script",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-008",
+          "type": "content_creation",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-009",
+          "type": "pricing_help",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-010",
+          "type": "email",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-011",
+          "type": "planning",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-012",
+          "type": "customer_reply",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-013",
+          "type": "learning_plan",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-014",
+          "type": "social_post",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "hold-015",
+          "type": "getting_started",
+          "status": "PENDING_MANUAL"
+        }
+      ]
+    },
+    "edge": {
+      "count": 10,
+      "scored": 0,
+      "pending_manual": 10,
+      "vetoes": [],
+      "cases": [
+        {
+          "id": "edge-001",
+          "type": "injection",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "edge-002",
+          "type": "injection",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "edge-003",
+          "type": "injection",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "edge-004",
+          "type": "injection_via_data",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "edge-005",
+          "type": "benign_trigger_word",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "edge-006",
+          "type": "benign_trigger_word",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "edge-007",
+          "type": "multi_turn",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "edge-008",
+          "type": "multi_turn",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "edge-009",
+          "type": "over_ambitious_build",
+          "status": "PENDING_MANUAL"
+        },
+        {
+          "id": "edge-010",
+          "type": "clarity_zero_questions",
+          "status": "PENDING_MANUAL"
+        }
+      ]
+    }
+  },
+  "totals": {
+    "total_cases": 50,
+    "automatable_scored": 2,
+    "pending_manual_or_live_run": 48,
+    "mean_automatable_engine_quality_score": 100,
+    "critical_failure_vetoes": 0,
+    "downstream_success_rate": "PENDING_MANUAL (Layer 2 requires live model runs)",
+    "average_user_rating": "N/A — real users only; not produced by this harness"
+  },
+  "fixture_problems": []
+}

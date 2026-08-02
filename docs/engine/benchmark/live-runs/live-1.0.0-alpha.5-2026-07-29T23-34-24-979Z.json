@@ -1,0 +1,51 @@
+{
+  "generated_at": "2026-07-29T23:33:48.482Z",
+  "engine_version": "1.0.0-alpha.5",
+  "engine_model": "claude-sonnet-4-5",
+  "flags": {
+    "judge": false,
+    "downstream": true,
+    "baseline": false,
+    "split": "holdout",
+    "limit": 1
+  },
+  "splits": {
+    "holdout": {
+      "count": 1,
+      "cases": [
+        {
+          "id": "hold-001",
+          "type": "side_hustle_plan",
+          "questions_asked": 1,
+          "delivered": true,
+          "final_prompt_char_count": 1154,
+          "final_prompt_excerpt": "You are an experienced small-batch food brand consultant who specializes in helping artisan food makers find their voice and connect with customers. You understand farmers markets, online sales, and what makes people choose one jam over another.\n\nI'm launching a homemade jam business selling at farmers markets and online. Help me create compelling, authentic marketing content that tells my story a",
+          "raw_excerpt": "I'd love to help you create a prompt for this! Just to make sure I build the most useful one for you, I have one quick question:\n\n**What's the main thing you need help with right now?**\n\n- Marketing copy (product descriptions, social media posts, etc.)\n- Business planning (pricing, logistics, legal requirements)\n- Recipe development or flavor ideas\n- Use your best judgment\n\n---TURN---\n\nPerfect! I'll create a prompt that covers the marketing side — product descriptions, story, and social media — since that's often the most immediate need when launching. If you need business planning help later, just let me know.\n\n---\n\n**Optimized for:** GPT-4o or Claude\n\n**What makes this powerful:** It gives you a brand voice consultant who understands small-batch food businesses and can help you tell your story in a way that connects with customers and stands out at the market.\n\n---\n\n```\nYou are an expe",
+          "automatable_score": 100,
+          "vetoes": [],
+          "downstream": {
+            "engine_score": 2,
+            "beats_raw": false,
+            "beats_rewrite": false,
+            "pass": false
+          }
+        }
+      ]
+    }
+  },
+  "totals": {
+    "total_cases": 1,
+    "mean_automatable_engine_quality_score": 100,
+    "mean_full_engine_quality_score": "NOT_RUN (pass --judge)",
+    "downstream_success_rate": "0% (0/1)",
+    "average_user_rating": "N/A — real users only; not produced by this harness",
+    "critical_failure_vetoes": 0,
+    "mean_length_delta_vs_0_9_0": "NOT_RUN (pass --baseline)",
+    "mean_question_delta_vs_0_9_0": "NOT_RUN (pass --baseline)",
+    "token_usage": {
+      "input": 5429,
+      "output": 1855
+    },
+    "est_cost_usd": 0.04
+  }
+}

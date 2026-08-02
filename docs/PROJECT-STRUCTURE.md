@@ -13,6 +13,13 @@ This document explains the key files and organization of the PromptMystic develo
 | `src/`                               | Main application source code                                            | Follow existing template structure |
 | `supabase/`                          | Supabase migrations and configuration                                   | Respect RLS policies |
 
+## Package Manager
+
+- This project uses **pnpm** exclusively.
+- Always run `pnpm install` to manage dependencies.
+- The `pnpm-lock.yaml` file must be committed.
+- Vercel automatically uses pnpm when the lockfile is present.
+
 ## PRD Synchronization Rule
 
 - **Working Version:** `docs/PromptMystic-PRD.md` (inside this project)
@@ -26,6 +33,15 @@ This document explains the key files and organization of the PromptMystic develo
 - We use the existing Supabase + Stripe + Resend template structure.
 - We keep changes minimal and focused.
 
-Last Updated: June 11, 2026
+## Branching & Workflow
 
----
+**Current Approach (as of July 2026):**
+- For `promptmystic-app`: Direct pushes to `main` are currently acceptable while working solo on smaller changes.
+- For `knowledge-base`: Feature branches + Pull Requests are used for better control.
+
+**Recommended Future Workflow:**
+- Use feature branches (`feature/your-feature-name`) for new development work.
+- Keep `main` stable.
+- Use clear, conventional commit messages (see `.cursorrules`).
+
+**Last Updated:** July 13, 2026

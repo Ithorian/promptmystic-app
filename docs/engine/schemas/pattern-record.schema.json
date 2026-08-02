@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "promptmystic/pattern-record",
+  "title": "Pattern / Strategy Record",
+  "description": "A curated strategy or anti-pattern. Two libraries exist: pattern_library.private.json (privacy_scope=private_user, global_eligible=false) and pattern_library.global.json (founder-created synthetic/generalized, or user-derived ONLY after explicit consent + de-identification + evidence review + founder approval).",
+  "type": "object",
+  "required": ["id", "kind", "schema_version", "title", "retrieval_keys", "provenance", "privacy_scope", "consent", "lifecycle"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "description": "Stable ID: P-#### (strategy) or AP-#### (anti-pattern)." },
+    "kind": { "type": "string", "enum": ["strategy", "anti_pattern"] },
+    "schema_version": { "type": "string", "const": "1.0" },
+    "engine_compat": {
+      "type": "object",
+      "properties": {
+        "min_engine_version": { "type": "string" },
+        "models_validated": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "title": { "type": "string" },
+    "retrieval_keys": {
+      "type": "object",
+      "required": ["task_category", "audience"],
+      "properties": {
+        "task_category": { "type": "string" },
+        "audience": { "type": "string" },
+        "sub_tags": { "type": "array", "items": { "type": "string" } },
+        "trigger_phrases": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "strategy": {
+      "type": "object",
+      "description": "Present when kind=strategy.",
+      "properties": {
+        "expert_role": { "type": "string" },
+        "recommended_sections": { "type": "array", "items": { "type": "string" } },
+        "section_hints": { "type": "object" },
+        "constraints": { "type": "array", "items": { "type": "string" } },
+        "tone": { "type": "string" },
+        "target_length_chars": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 },
+        "clarify_slots": { "type": "array", "items": { "type": "string" } },
+        "examples_policy": { "type": "string" }
+      }
+    },
+    "defect": {
+      "type": "object",
+      "description": "Present when kind=anti_pattern.",
+      "required": ["symptoms", "correction", "evidence_types"],
+      "properties": {
+        "symptoms": { "type": "array", "items": { "type": "string" } },
+        "root_cause": { "type": "string" },
+        "correction": { "type": "string" },
+        "evidence_types": {
+          "type": "array",
+          "description": "An anti-pattern must NOT rely on a low rating alone. One or more of these must justify it.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "user_rating",
+              "explicit_feedback",
+              "major_revision",
+              "benchmark_failure",
+              "critical_failure_veto",
+              "founder_review",
+              "repeated_failure",
+              "downstream_underperformance"
+            ]
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["created_by", "created_at"],
+      "properties": {
+        "source_record_ids": { "type": "array", "items": { "type": "string" }, "description": "PRIVATE local record IDs (never the raw content)." },
+        "created_by": { "type": "string", "enum": ["founder_review", "founder_synthetic"] },
+        "created_at": { "type": "string", "format": "date" },
+        "origin": { "type": "string", "enum": ["synthetic", "generalized_from_private", "private_local"], "description": "Global library records must be 'synthetic' or 'generalized_from_private' (with consent)." }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "supporting_records": { "type": "integer", "minimum": 0 },
+        "avg_rating": { "type": ["number", "null"] },
+        "copy_rate": { "type": ["number", "null"] },
+        "rating_stddev": { "type": ["number", "null"] }
+      }
+    },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1, "description": "Evidence-weighted; one outlier 10 never beats many consistent 8.5s." },
+    "privacy_scope": { "type": "string", "enum": ["private_user", "global_curated"] },
+    "consent": {
+      "type": "object",
+      "required": ["global_eligible", "raw_content_excluded"],
+      "properties": {
+        "global_eligible": { "type": "boolean", "default": false, "description": "DEFAULT false. Existing/user-derived records are NOT globally eligible merely because they can be de-identified. True only after explicit consent + de-identification + evidence review + founder approval." },
+        "raw_content_excluded": { "type": "boolean", "const": true, "description": "Raw prompt content is excluded from global learning by default." },
+        "explicit_user_consent": { "type": "boolean", "default": false }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": ["status", "version"],
+      "properties": {
+        "status": { "type": "string", "enum": ["candidate", "approved", "deprecated"] },
+        "version": { "type": "integer", "minimum": 1 },
+        "promoted_at": { "type": ["string", "null"] },
+        "deprecated_at": { "type": ["string", "null"] },
+        "rollback_of": { "type": ["string", "null"] },
+        "supersedes": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
