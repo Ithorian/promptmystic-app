@@ -3,7 +3,7 @@ import Stripe from 'stripe';
 import { supabaseAdminClient } from '@/libs/supabase/supabase-admin';
 import type { Database } from '@/libs/supabase/types';
 
-type Product = Database['public']['Tables']['products']['Row'];
+type Product = Database['public']['Tables']['products']['Insert'];
 
 export async function upsertProduct(product: Stripe.Product) {
   const productData: Product = {

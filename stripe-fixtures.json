@@ -4,12 +4,12 @@
   },
   "fixtures": [
     {
-      "name": "basic",
+      "name": "starter",
       "path": "/v1/products",
       "method": "post",
       "params": {
-        "name": "Basic",
-        "description": "For getting started with better prompts.",
+        "name": "Starter",
+        "description": "Perfect for getting started with AI prompting.",
         "metadata": {
           "price_card_variant": "basic",
           "prompts_per_month": "100",
@@ -19,48 +19,62 @@
       }
     },
     {
-      "name": "price_basic_month",
+      "name": "price_starter_month",
       "path": "/v1/prices",
       "method": "post",
       "params": {
-        "product": "${basic:id}",
+        "product": "${starter:id}",
         "currency": "usd",
-        "billing_scheme": "per_unit",
         "unit_amount": 900,
-        "recurring": {
-          "interval": "month",
-          "interval_count": 1
-        }
+        "recurring": { "interval": "month" }
       }
     },
     {
-      "name": "standard",
+      "name": "price_starter_year",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${starter:id}",
+        "currency": "usd",
+        "unit_amount": 8640,
+        "recurring": { "interval": "year" }
+      }
+    },
+    {
+      "name": "pro",
       "path": "/v1/products",
       "method": "post",
       "params": {
-        "name": "Standard",
-        "description": "For power users who prompt every day.",
+        "name": "Pro",
+        "description": "For serious users who want unlimited prompting.",
         "metadata": {
           "price_card_variant": "pro",
-          "prompts_per_month": "500",
+          "prompts_per_month": "unlimited",
           "support_level": "priority",
           "index": "1"
         }
       }
     },
     {
-      "name": "price_standard_month",
+      "name": "price_pro_month",
       "path": "/v1/prices",
       "method": "post",
       "params": {
-        "product": "${standard:id}",
+        "product": "${pro:id}",
         "currency": "usd",
-        "billing_scheme": "per_unit",
         "unit_amount": 1900,
-        "recurring": {
-          "interval": "month",
-          "interval_count": 1
-        }
+        "recurring": { "interval": "month" }
+      }
+    },
+    {
+      "name": "price_pro_year",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${pro:id}",
+        "currency": "usd",
+        "unit_amount": 18240,
+        "recurring": { "interval": "year" }
       }
     },
     {
@@ -69,7 +83,7 @@
       "method": "post",
       "params": {
         "name": "Premium",
-        "description": "Unlimited prompting for teams and pros.",
+        "description": "Custom pricing for teams and power users.",
         "metadata": {
           "price_card_variant": "enterprise",
           "prompts_per_month": "unlimited",
@@ -85,12 +99,8 @@
       "params": {
         "product": "${premium:id}",
         "currency": "usd",
-        "billing_scheme": "per_unit",
         "unit_amount": 2900,
-        "recurring": {
-          "interval": "month",
-          "interval_count": 1
-        }
+        "recurring": { "interval": "month" }
       }
     }
   ]

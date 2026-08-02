@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { PricingCard } from './price-card';
+
 import { BillingToggle } from './billing-toggle';
+import { PricingCard } from './price-card';
 
 interface PricingSectionProps {
   products: any[];

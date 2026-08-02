@@ -1,9 +1,10 @@
 'use client';
 
 import { useTransition } from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { createCheckoutAction } from "@/features/pricing/actions/create-checkout-action";
 
 interface PricingCardProps {
@@ -72,7 +73,7 @@ export function PricingCard({ product, billingInterval }: PricingCardProps) {
       <div className="mb-6 flex min-h-[4.5rem] flex-col justify-center">
         {isContactPlan ? (
           <>
-            <span className="text-3xl font-bold tracking-tight text-black">Let's talk</span>
+            <span className="text-3xl font-bold tracking-tight text-black">Let&apos;s talk</span>
             <span className="mt-1 text-sm text-neutral-600">Custom pricing for your team</span>
           </>
         ) : (
@@ -83,7 +84,7 @@ export function PricingCard({ product, billingInterval }: PricingCardProps) {
         )}
       </div>
 
-      {/* Features + Button */}
+      {/* Features */}
       <div className="flex flex-1 flex-col">
         <ul className="mb-8 flex-1 space-y-3 text-sm text-neutral-700">
           {features.map((feature, index) => (
@@ -107,12 +108,13 @@ export function PricingCard({ product, billingInterval }: PricingCardProps) {
             }`}
             onClick={() => {
               if (isContactPlan) {
-                window.location.href = "mailto:hello@promptmystic.com?subject=Premium%20plan%20enquiry";
+                window.location.href = "mailto:patcfitzgerald@gmail.com?subject=Premium%20plan%20enquiry";
                 return;
               }
-              if (!price) return;
+              if (!price?.id) return;
+            
               startTransition(() => {
-                createCheckoutAction({ price });
+                createCheckoutAction(price.id);   // ← Fixed: pass only the ID string
               });
             }}
           >

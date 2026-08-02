@@ -1,11 +1,12 @@
 import Stripe from 'stripe';
 
-import { upsertProduct } from './upsert-product';
+import { stripeAdmin } from '@/libs/stripe/stripe-admin';
 import { supabaseAdminClient } from '@/libs/supabase/supabase-admin';
 import type { Database } from '@/libs/supabase/types';
-import { stripeAdmin } from '@/libs/stripe/stripe-admin';
 
-type Price = Database['public']['Tables']['prices']['Row'];
+import { upsertProduct } from './upsert-product';
+
+type Price = Database['public']['Tables']['prices']['Insert'];
 
 export async function upsertPrice(price: Stripe.Price) {
   // Ensure we have the product ID
