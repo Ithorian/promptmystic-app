@@ -1,26 +1,24 @@
 'use client';
 
 import { useTransition } from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Check } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { createCheckoutAction } from "@/features/pricing/actions/create-checkout-action";
 
 interface PricingCardProps {
   product: any;
   billingInterval: 'month' | 'year';
+  currentPriceId?: string | null;
 }
 
-export function PricingCard({ product, billingInterval }: PricingCardProps) {
+export function PricingCard({ product, billingInterval, currentPriceId }: PricingCardProps) {
   const price = product.prices?.find((p: any) => p.interval === billingInterval);
-  const hasNumericPrice = Boolean(price?.unit_amount);
-  const isContactPlan = !hasNumericPrice;
   const isPopular = product.name === "Pro";
+  const isCurrentPlan = price.id === currentPriceId;
 
-  const displayPrice = hasNumericPrice
-    ? `$${(price!.unit_amount / 100).toFixed(0)}`
-    : null;
-
+  const displayPrice = `$${(price.unit_amount / 100).toFixed(0)}`;
   const priceLabel = billingInterval === "year" ? "/year" : "/month";
 
   const planFeatures: Record<string, string[]> = {
@@ -70,20 +68,13 @@ export function PricingCard({ product, billingInterval }: PricingCardProps) {
 
       {/* Price */}
       <div className="mb-6 flex min-h-[4.5rem] flex-col justify-center">
-        {isContactPlan ? (
-          <>
-            <span className="text-3xl font-bold tracking-tight text-black">Let's talk</span>
-            <span className="mt-1 text-sm text-neutral-600">Custom pricing for your team</span>
-          </>
-        ) : (
-          <div className="flex items-baseline">
-            <span className="text-5xl font-bold tracking-tighter text-black">{displayPrice}</span>
-            <span className="ml-1 text-lg text-neutral-500">{priceLabel}</span>
-          </div>
-        )}
+        <div className="flex items-baseline">
+          <span className="text-5xl font-bold tracking-tighter text-black">{displayPrice}</span>
+          <span className="ml-1 text-lg text-neutral-500">{priceLabel}</span>
+        </div>
       </div>
 
-      {/* Features + Button */}
+      {/* Features */}
       <div className="flex flex-1 flex-col">
         <ul className="mb-8 flex-1 space-y-3 text-sm text-neutral-700">
           {features.map((feature, index) => (
@@ -99,24 +90,24 @@ export function PricingCard({ product, billingInterval }: PricingCardProps) {
           <Button
             disabled={isPending}
             className={`w-full text-base font-medium ${
-              isPopular
+              isCurrentPlan
+                ? "border border-neutral-300 bg-white text-neutral-900 hover:bg-neutral-100"
+                : isPopular
                 ? "bg-orange-500 text-white hover:bg-orange-600"
-                : isContactPlan
-                ? "bg-neutral-900 text-white hover:bg-black"
                 : "bg-primary text-white hover:bg-primary/90"
             }`}
             onClick={() => {
-              if (isContactPlan) {
-                window.location.href = "mailto:hello@promptmystic.com?subject=Premium%20plan%20enquiry";
+              if (isCurrentPlan) {
+                window.location.href = "/manage-subscription";
                 return;
               }
-              if (!price) return;
+
               startTransition(() => {
-                createCheckoutAction({ price });
+                createCheckoutAction(price.id);
               });
             }}
           >
-            {isContactPlan ? "Contact Us" : isPending ? "Redirecting..." : "Get Started"}
+            {isCurrentPlan ? "Manage plan" : isPending ? "Redirecting..." : "Get Started"}
           </Button>
         </div>
       </div>

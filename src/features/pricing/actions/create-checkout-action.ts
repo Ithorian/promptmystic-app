@@ -2,54 +2,74 @@
 
 import { redirect } from 'next/navigation';
 
+import { getAuthUser } from '@/features/account/controllers/get-auth-user';
 import { getOrCreateCustomer } from '@/features/account/controllers/get-or-create-customer';
-import { getSession } from '@/features/account/controllers/get-session';
-import { Price } from '@/features/pricing/types';
+import { getSubscription } from '@/features/account/controllers/get-subscription';
 import { stripeAdmin } from '@/libs/stripe/stripe-admin';
-import { getURL } from '@/utils/get-url';
+import { getEnvVar } from '@/utils/get-env-var';
 
-export async function createCheckoutAction({ price }: { price: Price }) {
-  // 1. Get the user from session
-  const session = await getSession();
+export async function createCheckoutAction(priceId: string) {
+  console.log('=== CHECKOUT ACTION START ===');
+  console.log('Received priceId:', priceId);
 
-  if (!session?.user) {
-    return redirect(`${getURL()}/login`);
+  const user = await getAuthUser();
+
+  if (!user) {
+    console.error('No authenticated user found');
+    redirect('/login');
   }
 
-  if (!session.user.email) {
-    throw Error('Could not get email');
+  console.log('User ID:', user.id);
+
+  if (!user.email) {
+    throw new Error('Cannot start checkout: authenticated user has no email address');
   }
 
-  // 2. Retrieve or create the customer in Stripe
-  const customer = await getOrCreateCustomer({
-    userId: session.user.id,
-    email: session.user.email,
-  });
+  // Already paying for this exact plan: a second Checkout would create a
+  // duplicate subscription, so send them to the billing portal instead.
+  const existingSubscription = await getSubscription();
 
-  // 3. Create a checkout session in Stripe
-  const checkoutSession = await stripeAdmin.checkout.sessions.create({
-    payment_method_types: ['card'],
-    billing_address_collection: 'required',
-    customer,
-    customer_update: {
-      address: 'auto',
-    },
-    line_items: [
-      {
-        price: price.id,
-        quantity: 1,
+  if (existingSubscription?.price_id === priceId) {
+    console.log(`[checkout] User ${user.id} already subscribed to ${priceId}; redirecting to billing portal`);
+    redirect('/manage-subscription');
+  }
+
+  const siteUrl = getEnvVar(process.env.NEXT_PUBLIC_SITE_URL, 'NEXT_PUBLIC_SITE_URL').replace(/\/+$/, '');
+
+  let checkoutUrl: string | null = null;
+
+  try {
+    // Reuse the same Stripe customer across checkouts so repeat attempts don't
+    // orphan the customers -> user mapping the webhook relies on.
+    const customer = await getOrCreateCustomer({ userId: user.id, email: user.email });
+
+    const checkoutSession = await stripeAdmin.checkout.sessions.create({
+      mode: 'subscription',
+      customer,
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      success_url: `${siteUrl}/account?checkout=success`,
+      cancel_url: `${siteUrl}/pricing?canceled=true`,
+      client_reference_id: user.id,           // ← Important for customer mapping
+      metadata: {
+        userId: user.id,
       },
-    ],
-    mode: price.type === 'recurring' ? 'subscription' : 'payment',
-    allow_promotion_codes: true,
-    success_url: `${getURL()}/tool`,
-    cancel_url: `${getURL()}/pricing`,
-  });
+    });
 
-  if (!checkoutSession || !checkoutSession.url) {
-    throw Error('checkoutSession is not defined');
+    checkoutUrl = checkoutSession.url;
+  } catch (error) {
+    console.error('[checkout] Failed to create checkout session:', error);
+    redirect('/pricing?error=checkout_failed');
   }
 
-  // 4. Redirect to checkout url
-  redirect(checkoutSession.url);
+  if (!checkoutUrl) {
+    console.error('[checkout] Stripe returned a session without a redirect URL');
+    redirect('/pricing?error=checkout_failed');
+  }
+
+  redirect(checkoutUrl);
 }

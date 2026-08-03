@@ -3,17 +3,18 @@ import { IoChatbubblesOutline, IoRocketOutline, IoSparklesOutline } from 'react-
 
 import { Container } from '@/components/container';
 import { Button } from '@/components/ui/button';
+import { getSubscription } from '@/features/account/controllers/get-subscription';
 import PricingSection from '@/features/pricing/components/pricing-section';
 import { getProducts } from '@/features/pricing/controllers/get-products';
 
 export default async function HomePage() {
-  const products = await getProducts();
+  const [products, subscription] = await Promise.all([getProducts(), getSubscription()]);
 
   return (
     <div className='flex flex-col gap-8 lg:gap-32'>
       <HeroSection />
       <HowItWorksSection />
-      <PricingSection products={products} />
+      <PricingSection products={products} currentPriceId={subscription?.price_id ?? null} />
     </div>
   );
 }
