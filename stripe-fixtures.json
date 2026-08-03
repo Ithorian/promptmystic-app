@@ -83,9 +83,9 @@
       "method": "post",
       "params": {
         "name": "Premium",
-        "description": "Custom pricing for teams and power users.",
+        "description": "Everything in Pro plus custom prompt packs and early access.",
         "metadata": {
-          "price_card_variant": "enterprise",
+          "price_card_variant": "premium",
           "prompts_per_month": "unlimited",
           "support_level": "priority",
           "index": "2"
@@ -101,6 +101,17 @@
         "currency": "usd",
         "unit_amount": 2900,
         "recurring": { "interval": "month" }
+      }
+    },
+    {
+      "name": "price_premium_year",
+      "path": "/v1/prices",
+      "method": "post",
+      "params": {
+        "product": "${premium:id}",
+        "currency": "usd",
+        "unit_amount": 27840,
+        "recurring": { "interval": "year" }
       }
     }
   ]
