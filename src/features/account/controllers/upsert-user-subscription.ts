@@ -1,9 +1,25 @@
-import Stripe from 'stripe';
-
 import { stripeAdmin } from '@/libs/stripe/stripe-admin';
 import { supabaseAdminClient } from '@/libs/supabase/supabase-admin';
 import type { Database } from '@/libs/supabase/types';
 import { toDateTime } from '@/utils/to-date-time';
+
+/**
+ * PostgREST returns timestamps as `2026-08-18 02:43:12+00` while the values we
+ * derive from Stripe are ISO strings, so the two are never equal as text.
+ * Compare the instants instead, and treat anything unparseable as "changed" so
+ * an ambiguous case falls through to the (idempotent) upsert.
+ */
+function sameInstant(stored: string | null, incoming: string | null): boolean {
+  if (!stored && !incoming) return true;
+  if (!stored || !incoming) return false;
+
+  const storedMs = new Date(stored).getTime();
+  const incomingMs = new Date(incoming).getTime();
+
+  if (Number.isNaN(storedMs) || Number.isNaN(incomingMs)) return false;
+
+  return storedMs === incomingMs;
+}
 
 export async function upsertUserSubscription({
   subscriptionId,
@@ -52,18 +68,23 @@ export async function upsertUserSubscription({
   });
 
   const price = subscription.items.data[0].price;
+  const currentPeriodEnd = toDateTime(subscription.current_period_end).toISOString();
+  const trialEnd = subscription.trial_end ? toDateTime(subscription.trial_end).toISOString() : null;
 
   // Check if subscription already exists (prevent duplicate upserts)
   const { data: existingSubscription } = await supabaseAdminClient
     .from('subscriptions')
-    .select('status, cancel_at_period_end')
+    .select('status, cancel_at_period_end, current_period_end, price_id, trial_end')
     .eq('id', subscriptionId)
     .single();
 
   if (existingSubscription) {
     const isUnchanged =
       existingSubscription.status === subscription.status &&
-      existingSubscription.cancel_at_period_end === subscription.cancel_at_period_end;
+      existingSubscription.cancel_at_period_end === subscription.cancel_at_period_end &&
+      existingSubscription.price_id === price.id &&
+      sameInstant(existingSubscription.current_period_end, currentPeriodEnd) &&
+      sameInstant(existingSubscription.trial_end, trialEnd);
 
     if (isUnchanged) {
       console.log(
@@ -82,10 +103,10 @@ export async function upsertUserSubscription({
     price_id: price.id,
     cancel_at_period_end: subscription.cancel_at_period_end,
     current_period_start: toDateTime(subscription.current_period_start).toISOString(),
-    current_period_end: toDateTime(subscription.current_period_end).toISOString(),
+    current_period_end: currentPeriodEnd,
     ended_at: subscription.ended_at ? toDateTime(subscription.ended_at).toISOString() : null,
     trial_start: subscription.trial_start ? toDateTime(subscription.trial_start).toISOString() : null,
-    trial_end: subscription.trial_end ? toDateTime(subscription.trial_end).toISOString() : null,
+    trial_end: trialEnd,
   };
 
   const { error: upsertError } = await supabaseAdminClient

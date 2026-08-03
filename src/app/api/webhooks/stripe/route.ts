@@ -14,6 +14,8 @@ const relevantEvents = new Set([
   'price.updated',
   'customer.created',
   'checkout.session.completed',
+  'customer.subscription.created',
+  'customer.subscription.updated',
   'customer.subscription.deleted',
 ]);
 
@@ -90,8 +92,11 @@ export async function POST(req: Request) {
           }
           break;
 
+        case 'customer.subscription.created':
+        case 'customer.subscription.updated':
         case 'customer.subscription.deleted':
           const subscription = event.data.object as Stripe.Subscription;
+          console.log(`[webhook] Processing ${event.type}: ${subscription.id}`);
           await upsertUserSubscription({
             subscriptionId: subscription.id,
             customerId: subscription.customer as string,

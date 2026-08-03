@@ -8,15 +8,23 @@ import { PricingCard } from './price-card';
 interface PricingSectionProps {
   products: any[];
   isPricingPage?: boolean;
+  currentPriceId?: string | null;
 }
 
-export default function PricingSection({ products, isPricingPage }: PricingSectionProps) {
+export default function PricingSection({ products, isPricingPage, currentPriceId }: PricingSectionProps) {
   const [billingInterval, setBillingInterval] = useState<'month' | 'year'>('month');
 
   const HeadingLevel = isPricingPage ? 'h1' : 'h2';
 
+  // Only show plans that are actually purchasable at the selected interval.
+  // This keeps the cards driven purely by real Stripe prices, so a product
+  // without a recurring price for this interval simply doesn't render.
+  const purchasableProducts = products.filter((product: any) =>
+    product.prices?.some((price: any) => price.interval === billingInterval && price.unit_amount > 0)
+  );
+
   // Sort products: Starter → Pro → Premium
-  const sortedProducts = [...products].sort((a, b) => {
+  const sortedProducts = [...purchasableProducts].sort((a, b) => {
     const order = ['Starter', 'Pro', 'Premium'];
     return order.indexOf(a.name) - order.indexOf(b.name);
   });
@@ -52,6 +60,7 @@ export default function PricingSection({ products, isPricingPage }: PricingSecti
                 key={product.id} 
                 product={product} 
                 billingInterval={billingInterval} 
+                currentPriceId={currentPriceId}
               />
             ))
           )}

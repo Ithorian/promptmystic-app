@@ -1,10 +1,11 @@
+import { getSubscription } from '@/features/account/controllers/get-subscription';
 import PricingSection from '@/features/pricing/components/pricing-section';
 import { getProducts } from '@/features/pricing/controllers/get-products';
 
 import PricingErrorBanner from './PricingErrorBanner';
 
 export default async function PricingPage() {
-  const products = await getProducts();
+  const [products, subscription] = await Promise.all([getProducts(), getSubscription()]);
 
   return (
     <div className="min-h-screen bg-black">
@@ -16,6 +17,7 @@ export default async function PricingPage() {
           <PricingSection 
             products={products} 
             isPricingPage={true} 
+            currentPriceId={subscription?.price_id ?? null}
           />
         </div>
       </div>
