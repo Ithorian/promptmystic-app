@@ -6,12 +6,23 @@ import { Button } from '@/components/ui/button';
 import { getSession } from '@/features/account/controllers/get-session';
 import { getSubscription } from '@/features/account/controllers/get-subscription';
 
-export default async function AccountPage() {
-  const [session, subscription] = await Promise.all([getSession(), getSubscription()]);
+import { FinalizingSubscription } from './finalizing-subscription';
+
+type AccountSearchParams = Promise<{ checkout?: string | string[] }>;
+
+export default async function AccountPage({ searchParams }: { searchParams: AccountSearchParams }) {
+  const [session, subscription, params] = await Promise.all([
+    getSession(),
+    getSubscription(),
+    searchParams,
+  ]);
 
   if (!session) {
     redirect('/login');
   }
+
+  const checkoutSuccess = params.checkout === 'success';
+  const isFinalizing = checkoutSuccess && !subscription;
 
   return (
     <section className='rounded-lg bg-black px-4 py-16'>
@@ -25,7 +36,7 @@ export default async function AccountPage() {
               <Button size='sm' variant='secondary' asChild>
                 <Link href='/manage-subscription'>Manage your subscription</Link>
               </Button>
-            ) : (
+            ) : isFinalizing ? null : (
               <Button size='sm' variant='secondary' asChild>
                 <Link href='/pricing'>Start a subscription</Link>
               </Button>
@@ -34,6 +45,8 @@ export default async function AccountPage() {
         >
           {subscription ? (
             <SubscriptionSummary subscription={subscription} />
+          ) : isFinalizing ? (
+            <FinalizingSubscription />
           ) : (
             <p>You don&apos;t have an active subscription</p>
           )}
@@ -114,7 +127,9 @@ function Card({
         <h2 className='mb-1 text-xl font-semibold'>{title}</h2>
         <div className='py-4'>{children}</div>
       </div>
-      <div className='flex justify-end rounded-b-md border-t border-zinc-800 p-4'>{footer}</div>
+      {footer != null && (
+        <div className='flex justify-end rounded-b-md border-t border-zinc-800 p-4'>{footer}</div>
+      )}
     </div>
   );
 }
