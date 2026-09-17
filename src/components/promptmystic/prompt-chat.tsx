@@ -17,8 +17,73 @@ const WELCOME_MESSAGE: ChatMessage = {
 
 /** Extracts the first fenced code block from a message, for the Copy Prompt action. */
 function extractPrompt(content: string): string | null {
-  const match = content.match(/```(?:[a-zA-Z]*)?\n([\s\S]*?)```/);
+  const match = content.match(/```(?:[a-zA-Z]*)?\r?\n([\s\S]*?)```/);
   return match ? match[1].trim() : null;
+}
+
+type MessagePart = { type: 'text' | 'prompt'; value: string };
+
+/** Split assistant text so fence ticks never render. Unclosed fences (streaming) stay in the prompt part. */
+function splitFenced(content: string): MessagePart[] {
+  const parts: MessagePart[] = [];
+  let remaining = content;
+
+  while (remaining.length) {
+    const open = remaining.search(/```(?:[a-zA-Z]*)?(?:\r?\n|$)/);
+    if (open === -1) {
+      parts.push({ type: 'text', value: remaining });
+      break;
+    }
+    if (open > 0) {
+      parts.push({ type: 'text', value: remaining.slice(0, open) });
+    }
+    const afterMarker = remaining.slice(open).replace(/^```(?:[a-zA-Z]*)?(?:\r?\n)?/, '');
+    const close = afterMarker.indexOf('```');
+    if (close === -1) {
+      parts.push({ type: 'prompt', value: afterMarker });
+      break;
+    }
+    parts.push({ type: 'prompt', value: afterMarker.slice(0, close).replace(/\n$/, '') });
+    remaining = afterMarker.slice(close + 3);
+  }
+
+  return parts.filter((part) => part.value.length > 0);
+}
+
+function renderInlineMarkdown(text: string) {
+  const pieces = text.split(/(\*\*[^*]+\*\*)/g);
+  return pieces.map((piece, index) => {
+    const bold = piece.match(/^\*\*([^*]+)\*\*$/);
+    if (bold) {
+      return (
+        <strong key={index} className='font-semibold text-zinc-100'>
+          {bold[1]}
+        </strong>
+      );
+    }
+    return <span key={index}>{piece}</span>;
+  });
+}
+
+function MessageBody({ content }: { content: string }) {
+  const parts = splitFenced(content);
+
+  return (
+    <>
+      {parts.map((part, index) =>
+        part.type === 'prompt' ? (
+          <pre
+            key={index}
+            className='my-3 whitespace-pre-wrap rounded-lg bg-zinc-800/80 px-3 py-2 font-sans text-sm text-zinc-100'
+          >
+            {part.value}
+          </pre>
+        ) : (
+          <span key={index}>{renderInlineMarkdown(part.value)}</span>
+        )
+      )}
+    </>
+  );
 }
 
 export function PromptChat() {
@@ -124,7 +189,15 @@ export function PromptChat() {
                   message.role === 'user' ? 'bg-zinc-800 text-zinc-100' : 'bg-zinc-900 text-zinc-200'
                 )}
               >
-                {message.content || <span className='text-zinc-500'>…</span>}
+                {message.content ? (
+                  message.role === 'assistant' ? (
+                    <MessageBody content={message.content} />
+                  ) : (
+                    message.content
+                  )
+                ) : (
+                  <span className='text-zinc-500'>…</span>
+                )}
                 {prompt && (
                   <div className='mt-3'>
                     <Button size='sm' variant='secondary' onClick={() => copyPrompt(prompt)}>
